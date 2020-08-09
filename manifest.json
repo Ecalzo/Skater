@@ -3,7 +3,7 @@
 
     "name": "Skater",
     "description": "Spotlight-like extension for Chrome bookmarks",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "icons": {
         "16": "icon16.png",
         "24": "icon24.png",
@@ -18,8 +18,8 @@
     "commands": {
         "_execute_browser_action": {
             "suggested_key": {
-            "default": "Ctrl+Shift+L",
-            "mac": "MacCtrl+Shift+L"
+                "default": "Ctrl+Shift+L",
+                "mac": "Command+Shift+L"
             },
             "description":"Opens popup.html"
         }
