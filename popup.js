@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // refine results
     const refinedResults = refineResults(searchResults, query);
     updateSearchText(refinedResults);
+    updateLinkEventListeners();
     if (event.key === "Enter") {
       // go to first event in the list
       const top_result = searchResults[0];
@@ -34,6 +35,23 @@ function refineResults(searchResults, query) {
   });
   return refinedResults;
 }
+
+
+function updateLinkEventListeners() {
+  const links = document.querySelectorAll(".link");
+  if (links.length) {
+    links.forEach(link => {
+      link.addEventListener('click', event => {
+        const ctrlPressed = (event.ctrlKey || event.metaKey);
+        const url = event.target.href;
+        // FIXME
+        // How to keep popup.html open when ctrl + click many links
+        chrome.tabs.create({'url': url, active: !ctrlPressed});
+      }, false); 
+    });
+  }
+}
+
 
 function updateSearchText(results) {
   const resultView = getSearchResultsElement();
