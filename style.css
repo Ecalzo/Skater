@@ -8,6 +8,6 @@ a, a:link {
     background-size: auto 175%;
   }
   
-  a:hover {
+  a:hover, a:focus {
     background-position-y: 100%;
   }
