@@ -24,6 +24,12 @@
             "description":"Opens popup.html"
         }
     },
+    "content_scripts": [
+        {
+            "matches": ["https://*/*"],
+            "js": ["overlay.js"]
+        }
+    ],
     "permissions": [
         "bookmarks"
     ]
