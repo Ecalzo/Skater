@@ -12,9 +12,6 @@ function test_search_reddit() {
 	);
 }
 
-function test_search_bookmarks() {
-
-}
 
 function test() {
 	test_search_reddit();

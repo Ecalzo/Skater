@@ -13,7 +13,9 @@ document.addEventListener('DOMContentLoaded', function() {
   searchInput.addEventListener('keyup', async function(event) {
     const query = searchInput.value;
     const searchResults = await searchBookmarks(query);
-    updateSearchText(searchResults);
+    // refine results
+    const refinedResults = refineResults(searchResults, query);
+    updateSearchText(refinedResults);
     if (event.key === "Enter") {
       // go to first event in the list
       const top_result = searchResults[0];
@@ -23,21 +25,33 @@ document.addEventListener('DOMContentLoaded', function() {
 }, false);
 
 
+function refineResults(searchResults, query) {
+  let refinedResults = [];
+  searchResults.forEach(result => {
+    if (result.title.includes(query)) {
+      refinedResults.push(result) 
+    }
+  });
+  return refinedResults;
+}
+
 function updateSearchText(results) {
   const resultView = getSearchResultsElement();
   // wipes the unordered list
   resultView.innerHTML = '';
-  results.forEach(function(result) {
+  debugger
+  results.forEach(result => {
     resultView.appendChild(
-      createListItem(result.title)
+      createListItem(result)
     );
   });
 }
 
-function createListItem(title) {
+function createListItem(result) {
   const template = document.getElementById('list-item-template');
   const element = template.content.cloneNode(true);
-  element.querySelector('.name').innerHTML = title;
+  element.querySelector('.link').innerHTML = result.title;
+  element.querySelector('.link').href = result.url;
   return element;
 }
 
