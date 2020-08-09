@@ -1,3 +1,5 @@
+![test](icon128.png?raw=true)
+
 # Skater
 MacOS Spotlight-like Chrome extension for bookmarks
 
