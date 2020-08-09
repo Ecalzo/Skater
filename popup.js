@@ -30,8 +30,9 @@ function refineResults(searchResults, query) {
   return searchResults.filter(result => {
     // cuts bookmark Title down to a substring for closer matching
     const queryLen = query.length;
-    const bookmarkTitle = result.title.substring(0, queryLen);
-    return bookmarkTitle.includes(query)
+    const queryLower = query.toLowerCase();
+    const bookmarkTitle = result.title.substring(0, queryLen).toLowerCase();
+    return bookmarkTitle.includes(queryLower);
   });
 }
 
@@ -65,7 +66,12 @@ function updateSearchText(results) {
 function createListItem(result) {
   const template = document.getElementById('list-item-template');
   const element = template.content.cloneNode(true);
-  element.querySelector('.link').innerHTML = result.title;
+  if (result.title.length > 27) {
+    element.querySelector('.link').innerHTML = result.title.substring(0, 27) + '...';
+  }
+  else {
+    element.querySelector('.link').innerHTML = result.title;
+  }
   element.querySelector('.link').href = result.url;
   return element;
 }
