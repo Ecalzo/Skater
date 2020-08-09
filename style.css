@@ -2,7 +2,7 @@ a, a:link {
     color: black;
     text-decoration: none;
     background-position-y: -0%;
-    background-image: linear-gradient(#edf2f7 50%, gold 50%);
+    background-image: linear-gradient(#edf2f7 50%, #c6f6d5 50%);
     transition: background 500ms ease;
     background-size: 2px;
     background-size: auto 175%;
