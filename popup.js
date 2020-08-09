@@ -1,6 +1,6 @@
 
 function getSearchInputElement() {
-  return document.getElementById("searchInput")
+  return document.getElementById("searchInput");
 }
 
 function getSearchResultsElement() {
@@ -27,13 +27,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 function refineResults(searchResults, query) {
-  let refinedResults = [];
-  searchResults.forEach(result => {
-    if (result.title.includes(query)) {
-      refinedResults.push(result) 
-    }
+  return searchResults.filter(result => {
+    // cuts bookmark Title down to a substring for closer matching
+    const queryLen = query.length;
+    const bookmarkTitle = result.title.substring(0, queryLen);
+    return bookmarkTitle.includes(query)
   });
-  return refinedResults;
 }
 
 
@@ -51,7 +50,6 @@ function updateLinkEventListeners() {
     });
   }
 }
-
 
 function updateSearchText(results) {
   const resultView = getSearchResultsElement();
