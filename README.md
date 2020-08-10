@@ -10,7 +10,7 @@ MacOS Spotlight-like Chrome extension for bookmarks
     * Use `Tab` (and `Shift + Tab`) to navigate selections, or hit `Enter` to go to the top result
 
 ## Development/Testing
-[https://github.com/Ecalzo/Skater/releases](download latest release)
+[download latest release](https://github.com/Ecalzo/Skater/releases)
 
 1. Unzip
 2. Go to chrome://extensions/ in browser
