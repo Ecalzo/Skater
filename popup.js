@@ -32,7 +32,7 @@ function refineResults(searchResults, query) {
     const queryLen = query.length;
     const queryLower = query.toLowerCase();
     const bookmarkTitle = result.title.substring(0, queryLen).toLowerCase();
-    return bookmarkTitle.includes(queryLower);
+    return bookmarkTitle.includes(queryLower) & result.hasOwnProperty('url');
   });
 }
 
@@ -56,6 +56,7 @@ function updateSearchText(results) {
   const resultView = getSearchResultsElement();
   // wipes the unordered list
   resultView.innerHTML = '';
+  debugger
   results.forEach(result => {
     resultView.appendChild(
       createListItem(result)
