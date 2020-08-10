@@ -56,7 +56,6 @@ function updateSearchText(results) {
   const resultView = getSearchResultsElement();
   // wipes the unordered list
   resultView.innerHTML = '';
-  debugger
   results.forEach(result => {
     resultView.appendChild(
       createListItem(result)
