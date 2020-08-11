@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateLinkEventListeners();
     if (event.key === "Enter") {
       // go to first event in the list
-      const top_result = searchResults[0];
+      const top_result = refinedResults[0];
       window.open(top_result.url)
     }
   });
@@ -32,7 +32,7 @@ function refineResults(searchResults, query) {
     const queryLen = query.length;
     const queryLower = query.toLowerCase();
     const bookmarkTitle = result.title.substring(0, queryLen).toLowerCase();
-    return bookmarkTitle.includes(queryLower);
+    return bookmarkTitle.includes(queryLower) & result.hasOwnProperty('url');
   });
 }
 
