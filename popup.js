@@ -9,6 +9,7 @@ function getSearchResultsElement() {
 
 document.addEventListener('DOMContentLoaded', function() {
   focusInput();
+  const browser = chrome || browser;
   const searchInput = getSearchInputElement();
   searchInput.addEventListener('keyup', async function(event) {
     const query = searchInput.value;
@@ -16,36 +17,36 @@ document.addEventListener('DOMContentLoaded', function() {
     // refine results
     const refinedResults = refineResults(bookmarkSearchResults, query);
     updateSearchText(refinedResults);
-    updateLinkEventListeners();
     if (event.key === "Enter") {
       // go to first event in the list
       const top_result = refinedResults[0];
-      window.open(top_result.url)
+      browser.tabs.create({url: top_result.url, active: true});
+      window.close();
     }
   });
 }, false);
 
 
 function refineResults(bookmarkSearchResults, query) {
-  debugger
   return bookmarkSearchResults.filter(result => {
     // cuts bookmark Title down to a substring for closer matching
     const queryLen = query.length;
     const queryLower = query.toLowerCase();
-    const bookmarkTitle = result.title.toLowerCase();
-    return searchResults.filter(result => result.title.startsWith(query) && result.url);
+    const bookmarkTitle = result.title.substring(0, queryLen).toLowerCase();
+    return bookmarkTitle.includes(queryLower) && (typeof result.url != 'undefined');
   });
 }
 
 
 function updateLinkEventListeners() {
+  const browser = chrome || browser;
   const links = document.querySelectorAll(".link");
   if (links.length) {
     links.forEach(link => {
       link.addEventListener('click', event => {
         const ctrlPressed = (event.ctrlKey || event.metaKey);
         const url = event.target.href;
-        chrome.tabs.create({'url': url, active: !ctrlPressed});
+        browser.tabs.create({url: url, active: !ctrlPressed});
       }, false); 
     });
   }
@@ -80,7 +81,7 @@ function focusInput() {
 }
 
 function searchBookmarks(query) {
-  const browser = chrome || browser
+  const browser = chrome || browser;
   if (query.length) {
     return new Promise((resolve, _reject) => {
       browser.bookmarks.search(query, resolve);
