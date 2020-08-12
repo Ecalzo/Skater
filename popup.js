@@ -44,8 +44,6 @@ function updateLinkEventListeners() {
       link.addEventListener('click', event => {
         const ctrlPressed = (event.ctrlKey || event.metaKey);
         const url = event.target.href;
-        // FIXME
-        // How to keep popup.html open when ctrl + click many links
         chrome.tabs.create({'url': url, active: !ctrlPressed});
       }, false); 
     });
