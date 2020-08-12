@@ -32,8 +32,8 @@ function refineResults(bookmarkSearchResults, query) {
     // cuts bookmark Title down to a substring for closer matching
     const queryLen = query.length;
     const queryLower = query.toLowerCase();
-    const bookmarkTitle = result.title.substring(0, queryLen).toLowerCase();
-    return bookmarkTitle.includes(queryLower) & result.hasOwnProperty('url');
+    const bookmarkTitle = result.title.toLowerCase();
+    return searchResults.filter(result => result.title.startsWith(query) && result.url);
   });
 }
 
