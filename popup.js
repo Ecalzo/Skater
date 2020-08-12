@@ -12,9 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const searchInput = getSearchInputElement();
   searchInput.addEventListener('keyup', async function(event) {
     const query = searchInput.value;
-    const searchResults = await searchBookmarks(query);
+    const bookmarkSearchResults = await searchBookmarks(query);
     // refine results
-    const refinedResults = refineResults(searchResults, query);
+    const refinedResults = refineResults(bookmarkSearchResults, query);
     updateSearchText(refinedResults);
     updateLinkEventListeners();
     if (event.key === "Enter") {
@@ -26,8 +26,9 @@ document.addEventListener('DOMContentLoaded', function() {
 }, false);
 
 
-function refineResults(searchResults, query) {
-  return searchResults.filter(result => {
+function refineResults(bookmarkSearchResults, query) {
+  debugger
+  return bookmarkSearchResults.filter(result => {
     // cuts bookmark Title down to a substring for closer matching
     const queryLen = query.length;
     const queryLower = query.toLowerCase();
@@ -79,9 +80,10 @@ function focusInput() {
 }
 
 function searchBookmarks(query) {
+  const browser = chrome || browser
   if (query.length) {
     return new Promise((resolve, _reject) => {
-      chrome.bookmarks.search(query, resolve);
+      browser.bookmarks.search(query, resolve);
     });
   } else {
     return Promise.resolve([]);
