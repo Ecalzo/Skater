@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // refine results
     const refinedResults = refineResults(bookmarkSearchResults, query);
     updateSearchText(refinedResults);
+    updateLinkEventListeners();
     if (event.key === "Enter") {
       // go to first event in the list
       const top_result = refinedResults[0];
@@ -46,6 +47,8 @@ function updateLinkEventListeners() {
       link.addEventListener('click', event => {
         const ctrlPressed = (event.ctrlKey || event.metaKey);
         const url = event.target.href;
+        // workaround for FF which will open two links if there is an href param
+        event.target.href = '#';
         browser.tabs.create({url: url, active: !ctrlPressed});
       }, false); 
     });
