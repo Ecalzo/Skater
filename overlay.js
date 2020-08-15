@@ -1,24 +1,19 @@
 
 document.addEventListener('keydown', event => {
     if (event.ctrlKey && event.key === 'l') {
-        const overlayDiv = createOverlayDiv();
-        const searchDiv = createSearchDiv();
-        const resultsDiv = createSearchResultsList();
-
-        overlayDiv.appendChild(resultsDiv);
-        overlayDiv.appendChild(searchDiv);
-        document.body.appendChild(overlayDiv);
-
+        createOverlay();
         getSearchInputElement().focus();
 
         // now the magic
         const searchInput = getSearchInputElement();
         searchInput.addEventListener('keyup', async function(event) {
             const query = searchInput.value;
-            const searchResults = searchBookmarks(query);
+            const bookmarkSearchResults = await searchBookmarks(query);
+            console.log(bookmarkSearchResults)
             // refine results
-            if (typeof searchResults != 'undefined') {
-                const refinedResults = refineResults(searchResults, query);
+            if (Array.isArray(bookmarkSearchResults) && query.length > 1) {
+                const refinedResults = refineResults(bookmarkSearchResults, query);
+                console.log(refinedResults);
                 updateSearchText(refinedResults);
                 updateLinkEventListeners();
             }
@@ -39,26 +34,44 @@ function getSearchResultsElement() {
     return document.getElementById("searchResults");
 }
 
+function createOverlay() {
+    const overlayDiv = createOverlayDiv();
+    const searchInput = createSearchInput();
+    const resultsDiv = createSearchResultsList();
+    const searchWrapperDiv= createSearchWrapperDiv();
+
+    searchWrapperDiv.appendChild(searchInput);
+    searchWrapperDiv.appendChild(resultsDiv);
+    document.body.appendChild(searchWrapperDiv);
+}
+
 function createOverlayDiv () {
     const overlayDiv = document.createElement('div');
-    overlayDiv.style = "position: fixed; left: 0; top: 0; width: 100%; height: 100%; opacity: 50%; background-color: gray;";
+    overlayDiv.style = "position: fixed; left: 0; top: 0; width: 100%; height: 100%; background: rgba(204, 204, 204, 0.5);";
     overlayDiv.id = "evans-div"
     return overlayDiv
 }
 
-function createSearchDiv() {
-    const searchDiv = document.createElement('input');
-    searchDiv.id = "searchInput";
-    searchDiv.style = "margin:auto; position: absolute; top: 50%; left: 50%; margin-right: -50%; transform: translate(-50%, -%50);"
-    searchDiv.class = "";
-    searchDiv.autocomplete = "off";
-    return searchDiv
+function createSearchInput() {
+    const searchInput = document.createElement('input');
+    searchInput.id = "searchInput";
+    searchInput.class = "";
+    searchInput.autocomplete = "off";
+    return searchInput
+}
+
+function createSearchWrapperDiv() {
+    const searchDivWrapper = document.createElement('div');
+    searchDivWrapper.style = "margin:auto; position: absolute; top: 50%; left: 50%; margin-right: -50%; transform: translate(-50%, -%50);"
+    searchDivWrapper.id = "searchDivWrapper";
+    return searchDivWrapper
 }
 
 function createSearchResultsList() {
-    const ul = document.createElement('ul');
-    ul.id = "searchResults";
-    return ul
+    const resultsDiv = document.createElement('ul');
+    resultsDiv.id = "searchResults";
+    // resultsDiv.style = "margin:auto; position: absolute; top: 53%; left: 50%; margin-right: -50%; transform: translate(-50%, -%50);"
+    return resultsDiv
 }
 
 function refineResults(searchResults, query) {
@@ -117,9 +130,11 @@ function focusInput() {
 }
 
 function searchBookmarks(query) {
-    if (query.length > 3) {
-        chrome.runtime.sendMessage({queryBody: query}, function(response) {
-            console.log(response);
+    if (query.length > 1) {
+        return new Promise((resolve, _reject) => {
+            chrome.runtime.sendMessage({queryBody: query}, resolve);
         });
+    } else {
+        return Promise.resolve([]);
     }
 }
