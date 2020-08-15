@@ -1,54 +1,33 @@
-chrome.tabs.onUpdated.addListener( function (tabId, changeInfo, tab) {
-    console.log('starting');
-    
-    if (changeInfo.status == 'complete' && tab.active) {
-        console.log('if trigger');
-        
-      // do your things
-  
-    }
-});
-
-
-// chrome.tabs.onUpdated.addListener(() => {
-//     // document.addEventListener('DOMContentLoaded', () => {
-//     //     document.addEventListener('keydown', event => {
-//     //         if (event.ctrlKey && event.key === 'l') {
-//     //             obj = {greeting: "hello"};
-//     //             sendMessage(obj);
-//     //         }
-//     //     });
-//     // })
-    
-// });
-
-// function sendMessage(obj) {
-//     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-//         chrome.tabs.sendMessage(tabs[0].id, obj, function(response) {
-//           console.log(response.farewell);
-//         });
-//     });
-// }
-
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-    if (request.queryBody.length) {
-      // sendResponse({text: "tada!"})
-      // return new Promise((resolve, _reject) => {
-      //   chrome.bookmarks.search(query, resolve);
-        // });
-      chrome.bookmarks.search(request.queryBody, results => {
-        console.log(results);
-        sendResponse({text: "tada!"})});
-    } else {
-        // return Promise.resolve([]);
-      sendResponse({text: ''});
-    }
+    // if (request.queryBody.length) {
+    chrome.bookmarks.search(request.queryBody, results => {
+      let title;
+      title = results[0].title;
+      sendResponse({text: title});
+      // there is an issue with using sendResponse inside of this async? function
+      // sendResponse({text: 'fake response'});
+
+      console.log(request.queryBody);
+      console.log(title);
+      console.log(results);
+    });
+    // sendResponse({text: 'fake response'});
+
+    // const results = await searchBookmarks(request.queryBody);
+    // console.log(results);
+    //   // sendResponse(results[0]);
+    // } else {
+    //     // return Promise.resolve([]);
+    //   sendResponse({text: ''});
+    // }
+    return true
   }
 );
 
 
-function searchBookmarks() {
+function searchBookmarks(query) {
+  console.log('searching bookmarks');
   if (query.length) {
     return new Promise((resolve, _reject) => {
       chrome.bookmarks.search(query, resolve);
