@@ -119,7 +119,7 @@ function focusInput() {
 function searchBookmarks(query) {
     if (query.length > 3) {
         chrome.runtime.sendMessage({queryBody: query}, function(response) {
-            console.log(response.text);
+            console.log(response);
         });
     }
 }

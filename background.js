@@ -1,26 +1,14 @@
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-    // if (request.queryBody.length) {
-    chrome.bookmarks.search(request.queryBody, results => {
-      let title;
-      title = results[0].title;
-      sendResponse({text: title});
-      // there is an issue with using sendResponse inside of this async? function
-      // sendResponse({text: 'fake response'});
-
-      console.log(request.queryBody);
-      console.log(title);
-      console.log(results);
-    });
-    // sendResponse({text: 'fake response'});
-
-    // const results = await searchBookmarks(request.queryBody);
-    // console.log(results);
-    //   // sendResponse(results[0]);
-    // } else {
-    //     // return Promise.resolve([]);
-    //   sendResponse({text: ''});
-    // }
+    if (request.queryBody.length) {
+      chrome.bookmarks.search(request.queryBody, results => {
+        console.log(results);
+        sendResponse(results);
+      });
+    } else {
+      sendResponse([]);
+    }
+    // the trick was to return true from the addListener function, mind blown
     return true
   }
 );
