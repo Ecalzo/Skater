@@ -8,7 +8,7 @@ function getSearchResultsElement() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  focusInput();
+  // focusInput();
   const searchInput = getSearchInputElement();
   searchInput.addEventListener('keyup', async function(event) {
     const query = searchInput.value;
