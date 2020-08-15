@@ -33,6 +33,10 @@ function getSearchResultsElement() {
     return document.getElementById("searchResults");
 }
 
+function getSearchWrapperElement() {
+    return document.getElementById("searchWrapperDiv");
+}
+
 function createOverlay() {
     const searchIcon = createSearchIcon();
     const overlayDiv = createOverlayDiv();
@@ -68,7 +72,7 @@ function createSearchInput() {
     const searchInput = document.createElement('input');
     searchInput.id = "searchInput";
     searchInput.class = "";
-    searchInput.style = "border: 1px solid grey; border-radius: 8px; height: 60px; width: 100%; padding: 2px 23px 2px 35px; outline: 0; background-color: #f5f5f5; box-shadow: -12px 12px 2px 0px rgba(0, 0, 0, .2);"
+    searchInput.style = "border-radius: 8px; height: 60px; width: 100%; padding: 2px 23px 2px 35px; outline: 0; background-color: #f5f5f5;"
     searchInput.autocomplete = "off";
     searchInput.placeholder="Search"
     return searchInput
@@ -76,16 +80,37 @@ function createSearchInput() {
 
 function createSearchWrapperDiv() {
     const searchWrapperDiv = document.createElement('div');
-    searchWrapperDiv.style = "width:400px; margin:auto; position: absolute; top: 50%; left: 30%; margin-right: -50%; transform: translate(-50%, -%50);"
     searchWrapperDiv.id = "searchWrapperDiv";
+    searchWrapperDiv.style = "width:400px; margin:auto; position: absolute; top: 50%; left: 40%; margin-right: -50%; transform: translate(-50%, -%50);"
+    searchWrapperDiv.style.padding = "0px";
+    searchWrapperDiv.style.border = "1px solid grey";
+    searchWrapperDiv.style['border-radius'] = "8px";
+    searchWrapperDiv.style['background-color'] = "#f5f5f5";
+    searchWrapperDiv.style['box-shadow'] = "-12px 12px 2px 0px rgba(0, 0, 0, .2);"
     return searchWrapperDiv
 }
 
 function createSearchResultsList() {
     const resultsDiv = document.createElement('div');
     resultsDiv.id = "searchResults";
-    resultsDiv.style = "padding 20px;"
+    resultsDiv.style = "padding: 20px; padding 20px; background-color: #f5f5f5;"
+    resultsDiv.style.visibility = "hidden";
+    resultsDiv.style.padding = "0px";
     return resultsDiv
+}
+
+function ensureResultsListIsVisible() {
+    const searchResultsElement = getSearchResultsElement();
+    searchResultsElement.style.visibility = "visible";
+    searchResultsElement.style.padding = "20px";
+    console.log('made visible');
+}
+
+function ensureResultsListIsHidden() {
+    const searchResultsElement = getSearchResultsElement();
+    searchResultsElement.style.visibility = "hidden";
+    searchResultsElement.style.padding = "0px";
+    console.log('made invisible');
 }
 
 function refineResults(searchResults, query) {
@@ -116,11 +141,16 @@ function updateSearchText(results) {
     const resultsDiv = getSearchResultsElement();
     // wipes the unordered list
     resultsDiv.innerHTML = '';
-    results.forEach(result => {
-        resultsDiv.appendChild(
-            createListItem(result)
-        );
-    });
+    if (results.length) {
+        ensureResultsListIsVisible();
+        results.forEach(result => {
+            resultsDiv.appendChild(
+                createListItem(result)
+            );
+        });
+    } else {
+        ensureResultsListIsHidden();
+    };
 }
 
 function createListItem(result) {
