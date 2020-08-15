@@ -42,7 +42,8 @@ function createOverlay() {
 
     searchWrapperDiv.appendChild(searchInput);
     searchWrapperDiv.appendChild(resultsDiv);
-    document.body.appendChild(searchWrapperDiv);
+    overlayDiv.appendChild(searchWrapperDiv);
+    document.body.appendChild(overlayDiv);
 }
 
 function createOverlayDiv () {
@@ -70,7 +71,6 @@ function createSearchWrapperDiv() {
 function createSearchResultsList() {
     const resultsDiv = document.createElement('ul');
     resultsDiv.id = "searchResults";
-    // resultsDiv.style = "margin:auto; position: absolute; top: 53%; left: 50%; margin-right: -50%; transform: translate(-50%, -%50);"
     return resultsDiv
 }
 
