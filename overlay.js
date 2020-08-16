@@ -73,7 +73,7 @@ function createSearchInput() {
     const searchInput = document.createElement('input');
     searchInput.id = "searchInput";
     searchInput.class = "";
-    searchInput.style = "border-radius: 8px; height: 60px; width: 100%; padding: 2px 23px 2px 35px; background-color: #f5f5f5;"
+    searchInput.style = "height: 60px; width: 100%; padding: 2px 23px 2px 35px; background-color: #f5f5f5;"
     searchInput.style.border = "0px";
     searchInput.style.outline = "none";
     searchInput.style['border-width'] = "0px";
@@ -86,7 +86,7 @@ function createSearchWrapperDiv() {
     const searchWrapperDiv = document.createElement('div');
     searchWrapperDiv.id = "searchWrapperDiv";
     searchWrapperDiv.style = "width:400px; margin:auto; position: absolute; top: 50%; left: 40%; margin-right: -50%; transform: translate(-50%, -%50);"
-    searchWrapperDiv.style.padding = "0px";
+    searchWrapperDiv.style.padding = "2px";
     searchWrapperDiv.style.border = "1px solid grey";
     searchWrapperDiv.style['border-radius'] = "8px";
     searchWrapperDiv.style['background-color'] = "#f5f5f5";
