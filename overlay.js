@@ -1,6 +1,7 @@
-
+console.log('test');
 document.addEventListener('keydown', event => {
-    if (event.ctrlKey && event.key === 'l') {
+    if (event.altKey && event.key === 'l') {
+        console.log('test');
         createOverlay();
         getSearchInputElement().focus();
 
@@ -72,9 +73,12 @@ function createSearchInput() {
     const searchInput = document.createElement('input');
     searchInput.id = "searchInput";
     searchInput.class = "";
-    searchInput.style = "border-radius: 8px; height: 60px; width: 100%; padding: 2px 23px 2px 35px; outline: 0; background-color: #f5f5f5;"
+    searchInput.style = "border-radius: 8px; height: 60px; width: 100%; padding: 2px 23px 2px 35px; background-color: #f5f5f5;"
+    searchInput.style.border = "0px";
+    searchInput.style.outline = "none";
+    searchInput.style['border-width'] = "0px";
     searchInput.autocomplete = "off";
-    searchInput.placeholder="Search"
+    searchInput.placeholder="Search";
     return searchInput
 }
 
