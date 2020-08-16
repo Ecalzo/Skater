@@ -16,11 +16,14 @@ document.addEventListener('keydown', event => {
                 console.log(refinedResults);
                 updateSearchText(refinedResults);
                 updateLinkEventListeners();
+                if (event.key === "Enter") {
+                    // go to first event in the list
+                    const top_result = refinedResults[0];
+                    window.open(top_result.url)
+                }
             }
-            if (event.key === "Enter") {
-                // go to first event in the list
-                const top_result = refinedResults[0];
-                window.open(top_result.url)
+            if (event.key === "Escape") {
+                destroyOverlay();
             }
         });
     }
@@ -38,6 +41,10 @@ function getSearchWrapperElement() {
     return document.getElementById("searchWrapperDiv");
 }
 
+function getOverlayDiv() {
+    return document.getElementById("skater-overlay");
+}
+
 function createOverlay() {
     const searchIcon = createSearchIcon();
     const overlayDiv = createOverlayDiv();
@@ -53,10 +60,15 @@ function createOverlay() {
     document.body.appendChild(overlayDiv);
 }
 
+function destroyOverlay() {
+    const overlayDiv = getOverlayDiv();
+    overlayDiv.parentNode.removeChild(overlayDiv);
+}
+
 function createOverlayDiv () {
     const overlayDiv = document.createElement('div');
     overlayDiv.style = "position: fixed; left: 0; top: 0; width: 100%; height: 100%; background: rgba(204, 204, 204, 0.5);";
-    overlayDiv.id = "evans-div"
+    overlayDiv.id = "skater-overlay"
     return overlayDiv
 }
 
