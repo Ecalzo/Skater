@@ -85,7 +85,7 @@ function createSearchInput() {
     const searchInput = document.createElement('input');
     searchInput.id = "searchInput";
     searchInput.class = "";
-    searchInput.style = "height: 60px; width: 100%; padding: 2px 23px 2px 35px; background-color: #f5f5f5;"
+    searchInput.style = "height: 60px; width: 100%; padding: 2px 23px 2px 35px; background-color: #f5f5f5; font-size:19px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif;"
     searchInput.style.border = "0px";
     searchInput.style.outline = "none";
     searchInput.style['border-width'] = "0px";
@@ -109,7 +109,7 @@ function createSearchWrapperDiv() {
 function createSearchResultsList() {
     const resultsDiv = document.createElement('div');
     resultsDiv.id = "searchResults";
-    resultsDiv.style = "padding: 20px; padding 20px; background-color: #f5f5f5;"
+    resultsDiv.style = "padding: 20px; padding 20px; background-color: #f5f5f5; font-size:17px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif;"
     resultsDiv.style.visibility = "hidden";
     resultsDiv.style.padding = "0px";
     return resultsDiv
@@ -118,7 +118,7 @@ function createSearchResultsList() {
 function ensureResultsListIsVisible() {
     const searchResultsElement = getSearchResultsElement();
     searchResultsElement.style.visibility = "visible";
-    searchResultsElement.style.padding = "20px";
+    searchResultsElement.style.padding = "0px 10px 10px 10px";
     console.log('made visible');
 }
 
@@ -173,7 +173,9 @@ function createListItem(result) {
     const listElement = document.createElement('div');
     const listURL = document.createElement('a');
     listURL.class = "link";
-    listElement.class = "searchResultItem"
+    listURL.style.color = "#81b3d2";
+    listElement.class = "searchResultItem";
+    listElement.style['padding-top'] = "5px";
 
     if (result.title.length > 27) {
         listURL.innerHTML = result.title.substring(0, 27) + '...';
