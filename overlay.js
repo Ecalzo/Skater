@@ -1,46 +1,77 @@
-document.addEventListener('keydown', event => {
-    if (event.altKey && event.key === 'l') {
+document.addEventListener('keydown', documentEvent => {
+    if (documentEvent.altKey && documentEvent.key === 'l') {
         // const browser = chrome || browser;
         createOverlay();
         getSearchInputElement().focus();
-    } else { return }
+    } else {
+        const focusedElement = document.activeElement;
+        switch(documentEvent.key) {
+            case "Up":
+            case "ArrowUp":
+                // move to last search result or input
+                // FIXME functionize
+                if (focusedElement.getAttribute('class') === 'skater-link skater-result-0') {
+                    focusInput();
+                    return
+                } else if (focusedElement.isSameNode(getSearchInputElement())) {
+                    return
+                } else {
+                    // move to next search result
+                    const indexOfLastFocus = focusedElement.getAttribute('class').split('-');
+                    const index = parseInt(indexOfLastFocus[indexOfLastFocus.length - 1]) - 1;
+                    focusedElement.style.color = 'blue';
+                    document.querySelector(`.skater-result-${index}`).focus();
+                    // FIXME
+                    document.querySelector(`.skater-result-${index}`).style.color = "red";
+                    return
+                }
+            case "Down":
+            case "ArrowDown":
+                if (focusedElement.isSameNode(getSearchInputElement())) {
+                    document.querySelector('.skater-result-0').focus();
+                    // FIXME
+                    document.querySelector('.skater-result-0').style.color = "red";
+                    return
+                } else {
+                    // move to next search result
+                    const focusedElement = document.activeElement;
+                    const indexOfLastFocus = focusedElement.getAttribute('class').split('-');
+                    const index = parseInt(indexOfLastFocus[indexOfLastFocus.length - 1]) + 1;
+                    focusedElement.style.color = 'blue';
+                    document.querySelector(`.skater-result-${index}`).focus();
+                    // FIXME
+                    document.querySelector(`.skater-result-${index}`).style.color = "red";
+                    return
+                }
+        }
+    }
+
+    if (documentEvent.key === "Escape") {
+        destroyOverlay();
+    }
 
     const searchInput = getSearchInputElement();
-    searchInput.addEventListener('keyup', async function(event) {
+    searchInput.addEventListener('keyup', async function(inputEvent) {
         const query = searchInput.value;
         const bookmarkSearchResults = await searchBookmarks(query);
         // refine results
         if (Array.isArray(bookmarkSearchResults)) {
             const refinedResults = refineResults(bookmarkSearchResults, query);
             nodes = updateSearchText(refinedResults);
-            // updateLinkEventListeners();
-            switch(event.key) {
+
+            // Handle keydown at the searchInput element
+            switch(inputEvent.key) {
                 case "Enter":
-                    // go to first event in the list
+                    // go to first inputEvent in the list
                     const top_result = refinedResults[0];
                     // TODO use chrome.tabs.create by sending this as message to background.js
-                    if (event.ctrlKey){
+                    if (inputEvent.ctrlKey){
                         // open in same window
                     } else {
                         window.open(top_result.url);
                         destroyOverlay();
                     }
-                case "Up":
-                case "ArrowUp":
-                    // move to last search result or input
-                case "Down":
-                case "ArrowDown":
-                    // move to next search result
-                    const focusedElement = document.activeElement;
-                    if (focusedElement.isSameNode(getSearchInputElement())) {
-                        document.querySelector('.skater-result-0').focus();
-                    } else {
-                        const index = focusedElement.getAttribute('class').split('-')[-1];
-                    }
-                }
             }
-        if (event.key === "Escape") {
-            destroyOverlay();
         }
     });
 });
