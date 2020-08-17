@@ -119,6 +119,25 @@ function createSearchResultsList() {
     return resultsDiv
 }
 
+function createListItem(result) {
+    const listElement = document.createElement('div');
+    const listURL = document.createElement('a');
+    listURL.class = "link";
+    listURL.style.color = "#81b3d2";
+    listElement.class = "searchResultItem";
+    listElement.style['padding-top'] = "5px";
+
+    if (result.title.length > 27) {
+        listURL.innerHTML = result.title.substring(0, 27) + '...';
+    }
+    else {
+        listURL.innerHTML = result.title;
+    }
+    listURL.href = result.url;
+    listElement.appendChild(listURL);
+    return listElement
+}
+
 function ensureResultsListIsVisible() {
     const searchResultsElement = getSearchResultsElement();
     searchResultsElement.style.visibility = "visible";
@@ -174,24 +193,6 @@ function updateSearchText(results) {
     };
 }
 
-function createListItem(result) {
-    const listElement = document.createElement('div');
-    const listURL = document.createElement('a');
-    listURL.class = "link";
-    listURL.style.color = "#81b3d2";
-    listElement.class = "searchResultItem";
-    listElement.style['padding-top'] = "5px";
-
-    if (result.title.length > 27) {
-        listURL.innerHTML = result.title.substring(0, 27) + '...';
-    }
-    else {
-        listURL.innerHTML = result.title;
-    }
-    listURL.href = result.url;
-    listElement.appendChild(listURL);
-    return listElement
-}
 
 function focusInput() {
     getSearchInputElement().focus();
