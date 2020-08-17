@@ -68,22 +68,24 @@ function moveUpOneResult() {
 
 function moveDownOneResult() {
     const focusedElement = document.activeElement;
+    let index;
     if (focusedElement.isSameNode(getSearchInputElement())) {
         document.querySelector('.skater-result-0').focus();
-        const index = 0;
+        index = 0;
     } else {
         // move to next search result
         const indexOfLastFocus = focusedElement.getAttribute('class').split('-');
-        const index = parseInt(indexOfLastFocus[indexOfLastFocus.length - 1]) + 1;
+        index = parseInt(indexOfLastFocus[indexOfLastFocus.length - 1]) + 1;
         document.querySelector(`.skater-result-${index}`).focus();
     }
     updateSearchResultsCSS(index);
 }
 
 function updateSearchResultsCSS(index) {
-    searchElements = getSearchResultElements();
+    searchElements = getSearchResultsElementChildren();
     searchElements.forEach(e => e.style.color = 'blue');
     // color focused element
+    // setFocusedElementCSS
     document.querySelector(`.skater-result-${index}`).style.color = "red";
 }
 
@@ -104,7 +106,7 @@ function getOverlayDiv() {
     return document.getElementById("skater-overlay");
 }
 
-function getSearchResultElements() {
+function getSearchResultsElementChildren() {
     return document.querySelectorAll(".skater-link");
 }
 
