@@ -1,36 +1,48 @@
 document.addEventListener('keydown', event => {
     if (event.altKey && event.key === 'l') {
         // const browser = chrome || browser;
-
         createOverlay();
         getSearchInputElement().focus();
+    } else { return }
 
-        const searchInput = getSearchInputElement();
-        searchInput.addEventListener('keyup', async function(event) {
-            const query = searchInput.value;
-            const bookmarkSearchResults = await searchBookmarks(query);
-            console.log(bookmarkSearchResults)
-            // refine results
-            if (Array.isArray(bookmarkSearchResults)) {
-                const refinedResults = refineResults(bookmarkSearchResults, query);
-                console.log(refinedResults);
-                updateSearchText(refinedResults);
-                updateLinkEventListeners();
-                if (event.key === "Enter") {
+    const searchInput = getSearchInputElement();
+    searchInput.addEventListener('keyup', async function(event) {
+        const query = searchInput.value;
+        const bookmarkSearchResults = await searchBookmarks(query);
+        // refine results
+        if (Array.isArray(bookmarkSearchResults)) {
+            const refinedResults = refineResults(bookmarkSearchResults, query);
+            nodes = updateSearchText(refinedResults);
+            // updateLinkEventListeners();
+            switch(event.key) {
+                case "Enter":
                     // go to first event in the list
                     const top_result = refinedResults[0];
                     // TODO use chrome.tabs.create by sending this as message to background.js
-                    window.open(top_result.url);
-                    destroyOverlay();
-                } else if (event.ctrlKey && event.key === "Enter") {
-                    // open webpage in the current tab
+                    if (event.ctrlKey){
+                        // open in same window
+                    } else {
+                        window.open(top_result.url);
+                        destroyOverlay();
+                    }
+                case "Up":
+                case "ArrowUp":
+                    // move to last search result or input
+                case "Down":
+                case "ArrowDown":
+                    // move to next search result
+                    const focusedElement = document.activeElement;
+                    if (focusedElement.isSameNode(getSearchInputElement())) {
+                        document.querySelector('.skater-result-0').focus();
+                    } else {
+                        const index = focusedElement.getAttribute('class').split('-')[-1];
+                    }
                 }
             }
-            if (event.key === "Escape") {
-                destroyOverlay();
-            }
-        });
-    }
+        if (event.key === "Escape") {
+            destroyOverlay();
+        }
+    });
 });
 
 function getSearchInputElement() {
@@ -47,6 +59,10 @@ function getSearchWrapperElement() {
 
 function getOverlayDiv() {
     return document.getElementById("skater-overlay");
+}
+
+function getSearchResultElements() {
+    return document.querySelectorAll(".skater-link");
 }
 
 function createOverlay() {
@@ -78,7 +94,7 @@ function createOverlayDiv () {
 
 function createSearchIcon() {
     const searchIcon = document.createElement('img');
-    searchIcon.class = "search-icon";
+    searchIcon.setAttribute('class', "search-icon");
     searchIcon.src = "data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDU2Ljk2NiA1Ni45NjYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDU2Ljk2NiA1Ni45NjY7IiB4bWw6c3BhY2U9InByZXNlcnZlIiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4Ij4KPHBhdGggZD0iTTU1LjE0Niw1MS44ODdMNDEuNTg4LDM3Ljc4NmMzLjQ4Ni00LjE0NCw1LjM5Ni05LjM1OCw1LjM5Ni0xNC43ODZjMC0xMi42ODItMTAuMzE4LTIzLTIzLTIzcy0yMywxMC4zMTgtMjMsMjMgIHMxMC4zMTgsMjMsMjMsMjNjNC43NjEsMCw5LjI5OC0xLjQzNiwxMy4xNzctNC4xNjJsMTMuNjYxLDE0LjIwOGMwLjU3MSwwLjU5MywxLjMzOSwwLjkyLDIuMTYyLDAuOTIgIGMwLjc3OSwwLDEuNTE4LTAuMjk3LDIuMDc5LTAuODM3QzU2LjI1NSw1NC45ODIsNTYuMjkzLDUzLjA4LDU1LjE0Niw1MS44ODd6IE0yMy45ODQsNmM5LjM3NCwwLDE3LDcuNjI2LDE3LDE3cy03LjYyNiwxNy0xNywxNyAgcy0xNy03LjYyNi0xNy0xN1MxNC42MSw2LDIzLjk4NCw2eiIgZmlsbD0iIzAwMDAwMCIvPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K"
     searchIcon.style = "position: absolute; top: 20px; left: 8px; width: 18px; opacity: 50%"
     return searchIcon
@@ -88,7 +104,7 @@ function createSearchIcon() {
 function createSearchInput() {
     const searchInput = document.createElement('input');
     searchInput.id = "searchInput";
-    searchInput.class = "";
+    searchInput.setAttribute('class', "");
     searchInput.style = "height: 60px; width: 100%; padding: 2px 23px 2px 35px; background-color: #f5f5f5; font-size:19px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif;"
     searchInput.style.border = "0px";
     searchInput.style.outline = "none";
@@ -119,12 +135,12 @@ function createSearchResultsList() {
     return resultsDiv
 }
 
-function createListItem(result) {
+function createListItem(result, index) {
     const listElement = document.createElement('div');
     const listURL = document.createElement('a');
-    listURL.class = "link";
+    listURL.setAttribute('class', `skater-link skater-result-${index}`);
     listURL.style.color = "#81b3d2";
-    listElement.class = "searchResultItem";
+    listElement.setAttribute('class', `searchResultItem`);
     listElement.style['padding-top'] = "5px";
 
     if (result.title.length > 27) {
@@ -142,14 +158,12 @@ function ensureResultsListIsVisible() {
     const searchResultsElement = getSearchResultsElement();
     searchResultsElement.style.visibility = "visible";
     searchResultsElement.style.padding = "0px 10px 10px 10px";
-    console.log('made visible');
 }
 
 function ensureResultsListIsHidden() {
     const searchResultsElement = getSearchResultsElement();
     searchResultsElement.style.visibility = "hidden";
     searchResultsElement.style.padding = "0px";
-    console.log('made invisible');
 }
 
 function refineResults(searchResults, query) {
@@ -163,19 +177,19 @@ function refineResults(searchResults, query) {
   }
   
   
-function updateLinkEventListeners() {
-    const links = document.querySelectorAll(".link");
-    if (links.length) {
-        links.forEach(link => {
-        link.addEventListener('click', event => {
-            const ctrlPressed = (event.ctrlKey || event.metaKey);
-            const url = event.target.href;
-            // TODO: Decide if this is necessary
-            chrome.tabs.create({'url': url, active: !ctrlPressed});
-        }, false); 
-    });
-}
-}
+// function updateLinkEventListeners() {
+//     const links = document.querySelectorAll(".link");
+//     if (links.length) {
+//         links.forEach(link => {
+//         link.addEventListener('click', event => {
+//             const ctrlPressed = (event.ctrlKey || event.metaKey);
+//             const url = event.target.href;
+//             // TODO: Decide if this is necessary
+//             chrome.tabs.create({'url': url, active: !ctrlPressed});
+//         }, false); 
+//     });
+// }
+// }
 
 function updateSearchText(results) {
     const resultsDiv = getSearchResultsElement();
@@ -183,10 +197,10 @@ function updateSearchText(results) {
     resultsDiv.innerHTML = '';
     if (results.length) {
         ensureResultsListIsVisible();
+        let index = 0;
         results.forEach(result => {
-            resultsDiv.appendChild(
-                createListItem(result)
-            );
+            resultsDiv.appendChild(createListItem(result, index));
+            index += 1;
         });
     } else {
         ensureResultsListIsHidden();
