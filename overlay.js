@@ -3,7 +3,7 @@ document.addEventListener('keydown', documentEvent => {
         // const browser = chrome || browser;
         createOverlay();
         getSearchInputElement().focus();
-    } else {
+    } else if (getSearchInputElement()) {
         const focusedElement = document.activeElement;
         switch(documentEvent.key) {
             case "Up":
@@ -16,35 +16,17 @@ document.addEventListener('keydown', documentEvent => {
                 } else if (focusedElement.isSameNode(getSearchInputElement())) {
                     return
                 } else {
-                    // move to next search result
-                    const indexOfLastFocus = focusedElement.getAttribute('class').split('-');
-                    const index = parseInt(indexOfLastFocus[indexOfLastFocus.length - 1]) - 1;
-                    focusedElement.style.color = 'blue';
-                    document.querySelector(`.skater-result-${index}`).focus();
-                    // FIXME
-                    document.querySelector(`.skater-result-${index}`).style.color = "red";
+                    // move to previous result
+                    moveUpOneResult();
                     return
                 }
             case "Down":
             case "ArrowDown":
-                if (focusedElement.isSameNode(getSearchInputElement())) {
-                    document.querySelector('.skater-result-0').focus();
-                    // FIXME
-                    document.querySelector('.skater-result-0').style.color = "red";
-                    return
-                } else {
                     // move to next search result
-                    const focusedElement = document.activeElement;
-                    const indexOfLastFocus = focusedElement.getAttribute('class').split('-');
-                    const index = parseInt(indexOfLastFocus[indexOfLastFocus.length - 1]) + 1;
-                    focusedElement.style.color = 'blue';
-                    document.querySelector(`.skater-result-${index}`).focus();
-                    // FIXME
-                    document.querySelector(`.skater-result-${index}`).style.color = "red";
+                    moveDownOneResult();
                     return
-                }
         }
-    }
+    } else { return }
 
     if (documentEvent.key === "Escape") {
         destroyOverlay();
@@ -75,6 +57,32 @@ document.addEventListener('keydown', documentEvent => {
         }
     });
 });
+
+function moveUpOneResult() {
+    const indexOfLastFocus = focusedElement.getAttribute('class').split('-');
+    const index = parseInt(indexOfLastFocus[indexOfLastFocus.length - 1]) - 1;
+    focusedElement.style.color = 'blue';
+    document.querySelector(`.skater-result-${index}`).focus();
+    // FIXME
+    document.querySelector(`.skater-result-${index}`).style.color = "red";
+}
+
+function moveDownOneResult() {
+    if (focusedElement.isSameNode(getSearchInputElement())) {
+        document.querySelector('.skater-result-0').focus();
+        // FIXME
+        document.querySelector('.skater-result-0').style.color = "red";
+    } else {
+        // move to next search result
+        const focusedElement = document.activeElement;
+        const indexOfLastFocus = focusedElement.getAttribute('class').split('-');
+        const index = parseInt(indexOfLastFocus[indexOfLastFocus.length - 1]) + 1;
+        focusedElement.style.color = 'blue';
+        document.querySelector(`.skater-result-${index}`).focus();
+        // FIXME
+        document.querySelector(`.skater-result-${index}`).style.color = "red";
+    }
+}
 
 function getSearchInputElement() {
     return document.getElementById("searchInput");
