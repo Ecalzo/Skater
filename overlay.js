@@ -59,30 +59,35 @@ document.addEventListener('keydown', documentEvent => {
 });
 
 function moveUpOneResult() {
+    const focusedElement = document.activeElement;
     const indexOfLastFocus = focusedElement.getAttribute('class').split('-');
     const index = parseInt(indexOfLastFocus[indexOfLastFocus.length - 1]) - 1;
-    focusedElement.style.color = 'blue';
     document.querySelector(`.skater-result-${index}`).focus();
-    // FIXME
-    document.querySelector(`.skater-result-${index}`).style.color = "red";
+    updateSearchResultsCSS(index);
 }
 
 function moveDownOneResult() {
+    const focusedElement = document.activeElement;
     if (focusedElement.isSameNode(getSearchInputElement())) {
         document.querySelector('.skater-result-0').focus();
-        // FIXME
-        document.querySelector('.skater-result-0').style.color = "red";
+        updateSearchResultsCSS(0);
     } else {
         // move to next search result
-        const focusedElement = document.activeElement;
         const indexOfLastFocus = focusedElement.getAttribute('class').split('-');
         const index = parseInt(indexOfLastFocus[indexOfLastFocus.length - 1]) + 1;
-        focusedElement.style.color = 'blue';
         document.querySelector(`.skater-result-${index}`).focus();
-        // FIXME
-        document.querySelector(`.skater-result-${index}`).style.color = "red";
+        updateSearchResultsCSS(index);
     }
 }
+
+function updateSearchResultsCSS(index) {
+    searchElements = getSearchResultElements();
+    searchElements.forEach(e => e.style.color = 'blue');
+    // color focused element
+    document.querySelector(`.skater-result-${index}`).style.color = "red";
+    console.log(`.skater-result-${index} sould be red`);
+}
+
 
 function getSearchInputElement() {
     return document.getElementById("searchInput");
