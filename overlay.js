@@ -22,6 +22,8 @@ document.addEventListener('keydown', event => {
                     // TODO use chrome.tabs.create by sending this as message to background.js
                     window.open(top_result.url);
                     destroyOverlay();
+                } else if (event.ctrlKey && event.key === "Enter") {
+                    // open webpage in the current tab
                 }
             }
             if (event.key === "Escape") {
@@ -149,6 +151,7 @@ function updateLinkEventListeners() {
         link.addEventListener('click', event => {
             const ctrlPressed = (event.ctrlKey || event.metaKey);
             const url = event.target.href;
+            // TODO: Decide if this is necessary
             chrome.tabs.create({'url': url, active: !ctrlPressed});
         }, false); 
     });
