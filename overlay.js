@@ -1,7 +1,7 @@
-console.log('test');
 document.addEventListener('keydown', event => {
     if (event.altKey && event.key === 'l') {
-        console.log('test');
+        // const browser = chrome || browser;
+
         createOverlay();
         getSearchInputElement().focus();
 
@@ -19,7 +19,9 @@ document.addEventListener('keydown', event => {
                 if (event.key === "Enter") {
                     // go to first event in the list
                     const top_result = refinedResults[0];
-                    window.open(top_result.url)
+                    // TODO use chrome.tabs.create by sending this as message to background.js
+                    window.open(top_result.url);
+                    destroyOverlay();
                 }
             }
             if (event.key === "Escape") {
