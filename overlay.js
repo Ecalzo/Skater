@@ -12,19 +12,23 @@ document.addEventListener('keydown', documentEvent => {
                 // FIXME functionize
                 if (focusedElement.getAttribute('class') === 'skater-link skater-result-0') {
                     focusInput();
-                    return
+                    // FIXME: implement preventDefault better
+                    documentEvent.preventDefault();
+                    return true
                 } else if (focusedElement.isSameNode(getSearchInputElement())) {
-                    return
+                    return true
                 } else {
                     // move to previous result
                     moveUpOneResult();
-                    return
+                    documentEvent.preventDefault();
+                    return true
                 }
             case "Down":
             case "ArrowDown":
                     // move to next search result
                     moveDownOneResult();
-                    return
+                    documentEvent.preventDefault();
+                    return true
         }
     } else { return }
 
@@ -56,8 +60,6 @@ document.addEventListener('keydown', documentEvent => {
             }
         }
     });
-}, {
-    passive: true
 });
 
 function moveUpOneResult() {
@@ -198,7 +200,7 @@ function createListItem(result, index) {
     var domain = matches && matches[1] // domain is null if no matches found
 
     listIMG.src = `https://www.google.com/s2/favicons?domain_url=${domain}`;
-    listIMG.style.padding = '0% 5% 0% 0%';
+    listIMG.style.padding = '0% 5% 0% 5%';
     listIMG.setAttribute('class', 'domain-icon');
 
     listURL.setAttribute('class', `skater-link skater-result-${index}`);
