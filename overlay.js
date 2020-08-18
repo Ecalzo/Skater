@@ -56,6 +56,8 @@ document.addEventListener('keydown', documentEvent => {
             }
         }
     });
+}, {
+    passive: true
 });
 
 function moveUpOneResult() {
@@ -183,8 +185,19 @@ function createSearchResultsList() {
 function createListItem(result, index) {
     const listElement = document.createElement('div');
     const listURL = document.createElement('a');
+    const listIMG = document.createElement('img');
+    const absoluteResultUrl = 'https://domain.org/this/is/a/test'
+
+    var matches = result.url.match(/^https?\:\/\/(?:www\.)?([^\/?#]+)(?:[\/?#]|$)/i);
+    var domain = matches && matches[1] // domain is null if no matches found
+
+    listIMG.src = `https://www.google.com/s2/favicons?domain_url=${domain}`
+    listIMG.style = 'padding-right: 5%'
+    listIMG.setAttribute('class', 'domain-icon');
+
     listURL.setAttribute('class', `skater-link skater-result-${index}`);
     listURL.style.color = "#81b3d2";
+
     listElement.setAttribute('class', `searchResultItem`);
     listElement.style['padding-top'] = "5px";
 
@@ -195,6 +208,7 @@ function createListItem(result, index) {
         listURL.innerHTML = result.title;
     }
     listURL.href = result.url;
+    listElement.appendChild(listIMG);
     listElement.appendChild(listURL);
     return listElement
 }
@@ -266,3 +280,7 @@ function searchBookmarks(query) {
         return Promise.resolve([]);
     }
 }
+
+
+
+
