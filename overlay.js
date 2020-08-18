@@ -26,8 +26,9 @@ document.addEventListener('keydown', documentEvent => {
             case "Down":
             case "ArrowDown":
                     // move to next search result
-                    moveDownOneResult();
+                    // FIXME: check if this is the last element
                     documentEvent.preventDefault();
+                    moveDownOneResult();
                     return true
         }
     } else { return }
