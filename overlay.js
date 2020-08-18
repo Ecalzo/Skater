@@ -84,11 +84,18 @@ function moveDownOneResult() {
 }
 
 function updateSearchResultsCSS(index) {
-    searchElements = getSearchResultsElementChildren();
-    searchElements.forEach(e => e.style.color = 'blue');
+    const searchElements = getSearchResultsElementChildren();
+    const focusedElement = document.querySelector(`.skater-result-${index}`);
+    searchElements.forEach(e => {
+        e.style.color = 'blue';
+        e.parentElement.style['background-color'] = "#f5f5f5";
+    });
     // color focused element
     // setFocusedElementCSS
-    document.querySelector(`.skater-result-${index}`).style.color = "red";
+    focusedElement.parentElement.style['background-color'] = "rgba(0, 106, 255, 0.4)";
+    focusedElement.parentElement.style['border-radius'] = '3px';
+    focusedElement.style.border = '0px';
+    focusedElement.style.outline = "none";
 }
 
 
@@ -186,7 +193,6 @@ function createListItem(result, index) {
     const listElement = document.createElement('div');
     const listURL = document.createElement('a');
     const listIMG = document.createElement('img');
-    const absoluteResultUrl = 'https://domain.org/this/is/a/test'
 
     var matches = result.url.match(/^https?\:\/\/(?:www\.)?([^\/?#]+)(?:[\/?#]|$)/i);
     var domain = matches && matches[1] // domain is null if no matches found
