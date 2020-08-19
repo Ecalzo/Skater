@@ -3,7 +3,7 @@ document.addEventListener('keydown', documentEvent => {
         // const browser = chrome || browser;
         createOverlay();
         getSearchInputElement().focus();
-        main();
+        setUpInputEventListener();
     } else if (getSearchInputElement()) {
         const focusedElement = document.activeElement;
         switch(documentEvent.key) {
@@ -38,7 +38,7 @@ document.addEventListener('keydown', documentEvent => {
     }
 });
 
-function main() {
+function setUpInputEventListener() {
     const searchInput = getSearchInputElement();
     searchInput.addEventListener('keyup', async function(inputEvent) {
         const query = searchInput.value;
