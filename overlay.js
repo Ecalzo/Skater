@@ -285,7 +285,3 @@ function searchBookmarks(query) {
         return Promise.resolve([]);
     }
 }
-
-
-
-
