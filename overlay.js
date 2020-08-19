@@ -3,7 +3,7 @@ document.addEventListener('keydown', documentEvent => {
         // const browser = chrome || browser;
         createOverlay();
         setUpInputEventListener();
-        setTimeout(() => focusInput(), 300);
+        setTimeout(() => focusInput(), 100);
     } else if (getSearchInputElement()) {
         const focusedElement = document.activeElement;
         switch(documentEvent.key) {
