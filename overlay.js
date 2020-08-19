@@ -3,6 +3,7 @@ document.addEventListener('keydown', documentEvent => {
         // const browser = chrome || browser;
         createOverlay();
         getSearchInputElement().focus();
+        main();
     } else if (getSearchInputElement()) {
         const focusedElement = document.activeElement;
         switch(documentEvent.key) {
@@ -31,38 +32,41 @@ document.addEventListener('keydown', documentEvent => {
                     moveDownOneResult();
                     return true
         }
-    } else { return }
-
+    }
     if (documentEvent.key === "Escape") {
         destroyOverlay();
     }
+});
 
+function main() {
     const searchInput = getSearchInputElement();
     searchInput.addEventListener('keyup', async function(inputEvent) {
         const query = searchInput.value;
         const bookmarkSearchResults = await searchBookmarks(query);
         // refine results
-        if (Array.isArray(bookmarkSearchResults) && bookmarkSearchResults.length) {
+        if (Array.isArray(bookmarkSearchResults)) {
             const refinedResults = refineResults(bookmarkSearchResults, query);
             nodes = updateSearchText(refinedResults);
-            updateSearchResultsCSS(0);
+            if (refinedResults.length) {
 
-            // Handle keydown at the searchInput element
-            switch(inputEvent.key) {
-                case "Enter":
-                    // go to first inputEvent in the list
-                    const top_result = refinedResults[0];
-                    // TODO use chrome.tabs.create by sending this as message to background.js
-                    if (inputEvent.ctrlKey){
-                        // open in same window
-                    } else {
-                        window.open(top_result.url);
-                        destroyOverlay();
-                    }
+                updateSearchResultsCSS(0);
+                // Handle keydown at the searchInput element
+                switch(inputEvent.key) {
+                    case "Enter":
+                        // go to first inputEvent in the list
+                        const top_result = refinedResults[0];
+                        // TODO use chrome.tabs.create by sending this as message to background.js
+                        if (inputEvent.ctrlKey){
+                            // open in same window
+                        } else {
+                            window.open(top_result.url);
+                            destroyOverlay();
+                        }
+                }
             }
         }
     });
-});
+}
 
 function moveUpOneResult() {
     const focusedElement = document.activeElement;
@@ -92,7 +96,6 @@ function updateSearchResultsCSS(index) {
     const focusedElement = document.querySelector(`.skater-result-${index}`);
     searchElements.forEach(e => {
         resetListElementCSS(e.parentElement);
-        
     });
     // color focused element
     // setFocusedElementCSS
@@ -194,10 +197,10 @@ function createSearchResultsList() {
 
 function resetListElementCSS(listElement) {
     listElement.style['background-position-y'] = "-0%";
-    listElement.style['background-image'] = 'linear-gradient(#edf2f7 50%, #c6f6d5 50%)';
+    listElement.style['background-image'] = 'linear-gradient(#f5f5f5 50%, #c6f6d5 50%)';
+    listElement.style['background-color'] = '#f5f5f5';
     listElement.style['transition'] = 'background 300ms ease';
-    listElement.style['background-size'] = '2px';
-    listElement.style['background-size'] =  'auto 175%';
+    listElement.style['background-size'] = 'auto 175%';
     listElement.style.padding = '4px 0px 4px 0px';
 }
 
