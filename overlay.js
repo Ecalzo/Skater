@@ -97,8 +97,6 @@ function updateSearchResultsCSS(index) {
     // color focused element
     // setFocusedElementCSS
     focusedElement.parentElement.style['background-position-y'] = '100%';
-    focusedElement.parentElement.style['border-radius'] = '3px';
-    focusedElement.parentElement.style.border = '1px solid rgba(0, 0, 0, 0.2)';
     console.log('5px solid grey');
 
     focusedElement.style.color = 'black';
