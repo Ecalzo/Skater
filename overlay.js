@@ -50,7 +50,6 @@ function setUpInputEventListener() {
             nodes = updateSearchText(refinedResults);
             if (refinedResults.length) {
                 // FIXME this isn't animating!!!!
-                ensureSeperatorVisible();
                 setTimeout(() => animateFocusedSearchResult(0), 75);
                 // Handle keydown at the searchInput element
                 switch(inputEvent.key) {
