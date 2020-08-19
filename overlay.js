@@ -255,21 +255,6 @@ function refineResults(searchResults, query) {
       return bookmarkTitle.includes(queryLower) & result.hasOwnProperty('url');
     });
   }
-  
-  
-// function updateLinkEventListeners() {
-//     const links = document.querySelectorAll(".link");
-//     if (links.length) {
-//         links.forEach(link => {
-//         link.addEventListener('click', event => {
-//             const ctrlPressed = (event.ctrlKey || event.metaKey);
-//             const url = event.target.href;
-//             // TODO: Decide if this is necessary
-//             chrome.tabs.create({'url': url, active: !ctrlPressed});
-//         }, false); 
-//     });
-// }
-// }
 
 function updateSearchText(results) {
     const resultsDiv = getSearchResultsElement();
@@ -286,7 +271,6 @@ function updateSearchText(results) {
         ensureResultsListIsHidden();
     };
 }
-
 
 function focusInput() {
     getSearchInputElement().focus();
