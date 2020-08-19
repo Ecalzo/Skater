@@ -91,14 +91,15 @@ function updateSearchResultsCSS(index) {
     const searchElements = getSearchResultsElementChildren();
     const focusedElement = document.querySelector(`.skater-result-${index}`);
     searchElements.forEach(e => {
-        e.style.color = '#81b3d2';
-        e.parentElement.style['background-color'] = "#f5f5f5";
-        e.parentElement.style.border = "0px";
+        // e.style.color = '#81b3d2';
+        // e.parentElement.style['background-color'] = "#f5f5f5";
+        // e.parentElement.style.border = "0px";
+        resetListElementCSS(e.parentElement);
         
     });
     // color focused element
     // setFocusedElementCSS
-    focusedElement.parentElement.style['background-color'] = "rgba(0, 106, 255, 0.2)";
+    focusedElement.parentElement.style['background-position-y'] = '100%';
     focusedElement.parentElement.style['border-radius'] = '3px';
     focusedElement.parentElement.style.border = '1px solid rgba(0, 0, 0, 0.2)';
     console.log('5px solid grey');
@@ -192,10 +193,19 @@ function createSearchWrapperDiv() {
 function createSearchResultsList() {
     const resultsDiv = document.createElement('div');
     resultsDiv.id = "searchResults";
-    resultsDiv.style = "padding: 20px; padding 20px; background-color: #f5f5f5; font-size:17px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif;"
+    resultsDiv.style = "padding 20px; background-color: #f5f5f5; font-size:17px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif;"
     resultsDiv.style.visibility = "hidden";
     resultsDiv.style.padding = "0px";
     return resultsDiv
+}
+
+function resetListElementCSS(listElement) {
+    listElement.style['background-position-y'] = "-0%";
+    listElement.style['background-image'] = 'linear-gradient(#edf2f7 50%, #c6f6d5 50%)';
+    listElement.style['transition'] = 'background 300ms ease';
+    listElement.style['background-size'] = '2px';
+    listElement.style['background-size'] =  'auto 175%';
+    listElement.style.padding = '4px 0px 4px 0px';
 }
 
 function createListItem(result, index) {
@@ -214,7 +224,7 @@ function createListItem(result, index) {
     listURL.style.color = "#81b3d2";
 
     listElement.setAttribute('class', `searchResultItem`);
-    listElement.style.padding = '1% 0% 1% 0%';
+    resetListElementCSS(listElement);
 
     if (result.title.length > 27) {
         listURL.innerHTML = result.title.substring(0, 27) + '...';
@@ -231,7 +241,7 @@ function createListItem(result, index) {
 function ensureResultsListIsVisible() {
     const searchResultsElement = getSearchResultsElement();
     searchResultsElement.style.visibility = "visible";
-    searchResultsElement.style.padding = "0px 10px 10px 10px";
+    searchResultsElement.style.padding = "10px 10px 10px 10px";
 }
 
 function ensureResultsListIsHidden() {
