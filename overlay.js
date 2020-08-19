@@ -42,7 +42,7 @@ document.addEventListener('keydown', documentEvent => {
         const query = searchInput.value;
         const bookmarkSearchResults = await searchBookmarks(query);
         // refine results
-        if (Array.isArray(bookmarkSearchResults)) {
+        if (Array.isArray(bookmarkSearchResults) && bookmarkSearchResults.length) {
             const refinedResults = refineResults(bookmarkSearchResults, query);
             nodes = updateSearchText(refinedResults);
             updateSearchResultsCSS(0);
