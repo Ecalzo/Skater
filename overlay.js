@@ -90,13 +90,14 @@ function updateSearchResultsCSS(index) {
     const searchElements = getSearchResultsElementChildren();
     const focusedElement = document.querySelector(`.skater-result-${index}`);
     searchElements.forEach(e => {
-        e.style.color = 'blue';
+        e.style.color = '#81b3d2';
         e.parentElement.style['background-color'] = "#f5f5f5";
     });
     // color focused element
     // setFocusedElementCSS
-    focusedElement.parentElement.style['background-color'] = "rgba(0, 106, 255, 0.4)";
+    focusedElement.parentElement.style['background-color'] = "rgba(0, 106, 255, 0.2)";
     focusedElement.parentElement.style['border-radius'] = '3px';
+    focusedElement.style.color = 'black';
     focusedElement.style.border = '0px';
     focusedElement.style.outline = "none";
 }
@@ -208,7 +209,7 @@ function createListItem(result, index) {
     listURL.style.color = "#81b3d2";
 
     listElement.setAttribute('class', `searchResultItem`);
-    listElement.style['padding-top'] = "5px";
+    listElement.style.padding = '1% 0% 1% 0%';
 
     if (result.title.length > 27) {
         listURL.innerHTML = result.title.substring(0, 27) + '...';
