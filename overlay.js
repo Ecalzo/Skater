@@ -171,7 +171,7 @@ function createSearchInput() {
     const searchInput = document.createElement('input');
     searchInput.id = "searchInput";
     searchInput.setAttribute('class', "");
-    searchInput.style = "height: 60px; width: 350px; padding: 2px 23px 2px 35px; background-color: #f5f5f5; font-size:19px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif;"
+    searchInput.style = "height: 60px; width: 80%; padding: 2px 23px 2px 35px; background-color: #f5f5f5; font-size:19px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif;"
     searchInput.style.border = "0px";
     searchInput.style.outline = "none";
     searchInput.style['border-width'] = "0px";
@@ -204,7 +204,7 @@ function createSearchResultsList() {
 function resetListElementCSS(listElement) {
     listElement.style['background-position-y'] = "-0%";
     listElement.style['background-image'] = 'linear-gradient(#f5f5f5 50%, #c6f6d5 50%)';
-    listElement.style['transition'] = 'background 1000ms ease';
+    listElement.style['transition'] = 'background 200ms ease';
     listElement.style['background-size'] = 'auto 200%';
     listElement.style['border-radius'] = '10px';
     listElement.style.padding = '4px 0px 4px 0px';
@@ -220,6 +220,7 @@ function createListItem(result, index) {
 
     listIMG.src = `https://www.google.com/s2/favicons?domain_url=${domain}`;
     listIMG.style.padding = '0% 5% 0% 5%';
+    listIMG.style['margin-top'] = '4px';
     listIMG.setAttribute('class', 'domain-icon');
 
     listURL.setAttribute('class', `skater-link skater-result-${index}`);
