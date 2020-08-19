@@ -97,8 +97,6 @@ function updateSearchResultsCSS(index) {
     // color focused element
     // setFocusedElementCSS
     focusedElement.parentElement.style['background-position-y'] = '100%';
-    console.log('5px solid grey');
-
     focusedElement.style.color = 'black';
     focusedElement.style.outline = "none";
 }
