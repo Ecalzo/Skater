@@ -200,7 +200,8 @@ function resetListElementCSS(listElement) {
     listElement.style['background-image'] = 'linear-gradient(#f5f5f5 50%, #c6f6d5 50%)';
     listElement.style['background-color'] = '#f5f5f5';
     listElement.style['transition'] = 'background 300ms ease';
-    listElement.style['background-size'] = 'auto 175%';
+    listElement.style['background-size'] = 'auto 200%';
+    listElement.style['border-radius'] = '10px';
     listElement.style.padding = '4px 0px 4px 0px';
 }
 
@@ -217,7 +218,7 @@ function createListItem(result, index) {
     listIMG.setAttribute('class', 'domain-icon');
 
     listURL.setAttribute('class', `skater-link skater-result-${index}`);
-    listURL.style.color = "#81b3d2";
+    listURL.style.color = "black";
 
     listElement.setAttribute('class', `searchResultItem`);
     resetListElementCSS(listElement);
