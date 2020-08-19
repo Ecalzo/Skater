@@ -91,9 +91,6 @@ function updateSearchResultsCSS(index) {
     const searchElements = getSearchResultsElementChildren();
     const focusedElement = document.querySelector(`.skater-result-${index}`);
     searchElements.forEach(e => {
-        // e.style.color = '#81b3d2';
-        // e.parentElement.style['background-color'] = "#f5f5f5";
-        // e.parentElement.style.border = "0px";
         resetListElementCSS(e.parentElement);
         
     });
