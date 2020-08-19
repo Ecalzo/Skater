@@ -88,14 +88,18 @@ function moveUpOneResult() {
 function moveDownOneResult() {
     const focusedElement = document.activeElement;
     let index;
-    if (focusedElement.isSameNode(getSearchInputElement())) {
+    if (focusedElement.isSameNode(getSearchInputElement()) && document.querySelector('.skater-result-1')) {
         document.querySelector('.skater-result-1').focus();
         index = 1;
     } else {
         // move to next search result
         const indexOfLastFocus = focusedElement.getAttribute('class').split('-');
         index = parseInt(indexOfLastFocus[indexOfLastFocus.length - 1]) + 1;
-        document.querySelector(`.skater-result-${index}`).focus();
+        if (document.querySelector(`.skater-result-${index}`)) {
+            document.querySelector(`.skater-result-${index}`).focus();
+        } else {
+            index = indexOfLastFocus[indexOfLastFocus.length - 1];
+        }
     }
     updateSearchResultsCSS(index);
 }
