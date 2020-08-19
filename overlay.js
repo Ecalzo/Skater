@@ -3,7 +3,7 @@ document.addEventListener('keydown', documentEvent => {
         // const browser = chrome || browser;
         createOverlay();
         setUpInputEventListener();
-        focusInput();
+        setTimeout(() => focusInput(), 300);
     } else if (getSearchInputElement()) {
         const focusedElement = document.activeElement;
         switch(documentEvent.key) {
@@ -50,7 +50,7 @@ function setUpInputEventListener() {
             nodes = updateSearchText(refinedResults);
             if (refinedResults.length) {
                 // FIXME this isn't animating!!!!
-                setTimeout(() => animateFocusedSearchResult(0), 75);
+                setTimeout(() => animateFocusedSearchResult(0), 300);
                 // Handle keydown at the searchInput element
                 switch(inputEvent.key) {
                     case "Enter":
