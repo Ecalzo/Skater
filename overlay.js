@@ -45,7 +45,7 @@ function setUpInputEventListener() {
         const query = searchInput.value;
         const bookmarkSearchResults = await searchBookmarks(query);
         // refine results
-        if (Array.isArray(bookmarkSearchResults)) {
+        if (Array.isArray(bookmarkSearchResults) && isValidInputEvent(inputEvent.key)) {
             const refinedResults = refineResults(bookmarkSearchResults, query);
             nodes = updateSearchText(refinedResults);
             if (refinedResults.length) {
@@ -68,6 +68,13 @@ function setUpInputEventListener() {
         }
         return true
     });
+}
+
+function isValidInputEvent(key) {
+    const isAlphabetical = (key >= "a" && key <= "z");
+    const isNumeric = (key >= "0" && key <= "9");
+    const isBackspace = key === "Backspace";
+    return isAlphabetical || isNumeric || isBackspace
 }
 
 function moveUpOneResult() {
@@ -96,9 +103,11 @@ function moveDownOneResult() {
 function animateFocusedSearchResult(index) {
     console.log(`animating ${index}`);
     const focusedElement = document.querySelector(`.skater-result-${index}`);
-    focusedElement.parentElement.style['background-position-y'] = '100%';
-    focusedElement.style.color = 'black';
-    focusedElement.style.outline = "none";
+    if (focusedElement) {
+        focusedElement.parentElement.style['background-position-y'] = '100%';
+        focusedElement.style.color = 'black';
+        focusedElement.style.outline = "none";
+    }
 }
 
 function updateSearchResultsCSS(index) {
@@ -220,7 +229,7 @@ function createListItem(result, index) {
 
     listIMG.src = `https://www.google.com/s2/favicons?domain_url=${domain}`;
     listIMG.style.padding = '0% 5% 0% 5%';
-    listIMG.style['margin-bottom'] = '2px';
+    listIMG.style['margin-bottom'] = '-1%';
     listIMG.setAttribute('class', 'domain-icon');
 
     listURL.setAttribute('class', `skater-link skater-result-${index}`);
