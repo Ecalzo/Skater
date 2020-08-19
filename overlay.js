@@ -45,6 +45,7 @@ document.addEventListener('keydown', documentEvent => {
         if (Array.isArray(bookmarkSearchResults)) {
             const refinedResults = refineResults(bookmarkSearchResults, query);
             nodes = updateSearchText(refinedResults);
+            updateSearchResultsCSS(0);
 
             // Handle keydown at the searchInput element
             switch(inputEvent.key) {
@@ -75,8 +76,8 @@ function moveDownOneResult() {
     const focusedElement = document.activeElement;
     let index;
     if (focusedElement.isSameNode(getSearchInputElement())) {
-        document.querySelector('.skater-result-0').focus();
-        index = 0;
+        document.querySelector('.skater-result-1').focus();
+        index = 1;
     } else {
         // move to next search result
         const indexOfLastFocus = focusedElement.getAttribute('class').split('-');
@@ -92,13 +93,17 @@ function updateSearchResultsCSS(index) {
     searchElements.forEach(e => {
         e.style.color = '#81b3d2';
         e.parentElement.style['background-color'] = "#f5f5f5";
+        e.parentElement.style.border = "0px";
+        
     });
     // color focused element
     // setFocusedElementCSS
     focusedElement.parentElement.style['background-color'] = "rgba(0, 106, 255, 0.2)";
     focusedElement.parentElement.style['border-radius'] = '3px';
+    focusedElement.parentElement.style.border = '1px solid rgba(0, 0, 0, 0.2)';
+    console.log('5px solid grey');
+
     focusedElement.style.color = 'black';
-    focusedElement.style.border = '0px';
     focusedElement.style.outline = "none";
 }
 
