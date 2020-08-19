@@ -185,7 +185,7 @@ function createSearchWrapperDiv() {
     searchWrapperDiv.style.border = "1px solid grey";
     searchWrapperDiv.style['border-radius'] = "8px";
     searchWrapperDiv.style['background-color'] = "#f5f5f5";
-    searchWrapperDiv.style['box-shadow'] = "-12px 12px 2px 0px rgba(0, 0, 0, .2);"
+    searchWrapperDiv.style['box-shadow'] = "-13px 13px 16px 1px rgba(0, 0, 0, 0.2)"
     return searchWrapperDiv
 }
 
