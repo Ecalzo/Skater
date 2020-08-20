@@ -190,7 +190,7 @@ function destroyOverlay() {
 
 function createOverlayDiv () {
     const overlayDiv = document.createElement('div');
-    overlayDiv.style = "position: fixed; left: 0; top: 0; width: 100%; height: 100%; background: rgba(204, 204, 204, 0.3); z-index:10;";
+    overlayDiv.style = "position: fixed; left: 0; top: 0; width: 100%; height: 100%; background: rgba(204, 204, 204, 0.3); z-index:2147483647;";
     overlayDiv.id = "skater-overlay"
     return overlayDiv
 }
