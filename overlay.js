@@ -5,13 +5,13 @@ document.addEventListener('keydown', documentEvent => {
         setUpInputEventListener();
         setTimeout(() => focusInput(), 100);
     } else if (getSearchInputElement()) {
-        const focusedElement = document.activeElement;
+        const focusedElement = document.querySelector('.focused');
         switch(documentEvent.key) {
             case "Up":
             case "ArrowUp":
                 // move to last search result or input
                 // FIXME functionize
-                if (focusedElement.getAttribute('class') === 'skater-link skater-result-0') {
+                if (focusedElement.getAttribute('class') === 'skater-link skater-result-0 focused') {
                     focusInput();
                     // FIXME: implement preventDefault better
                     documentEvent.preventDefault();
@@ -31,6 +31,18 @@ document.addEventListener('keydown', documentEvent => {
                     documentEvent.preventDefault();
                     moveDownOneResult();
                     return true
+            case "Enter":
+                // go to first inputEvent in the list
+                const selectedResult = document.querySelector('.focused');
+                console.log(selectedResult);
+                // TODO use chrome.tabs.create by sending this as message to background.js
+                if (documentEvent.ctrlKey){
+                    // open in same window
+                } else {
+                    console.log(selectedResult);
+                    window.open(selectedResult.href);
+                    destroyOverlay();
+            }
         }
     }
     if (documentEvent.key === "Escape") {
@@ -49,21 +61,11 @@ function setUpInputEventListener() {
             const refinedResults = refineResults(bookmarkSearchResults, query);
             nodes = updateSearchText(refinedResults);
             if (refinedResults.length) {
-                // FIXME this isn't animating!!!!
-                setTimeout(() => animateFocusedSearchResult(0), 300);
-                // Handle keydown at the searchInput element
-                switch(inputEvent.key) {
-                    case "Enter":
-                        // go to first inputEvent in the list
-                        const top_result = refinedResults[0];
-                        // TODO use chrome.tabs.create by sending this as message to background.js
-                        if (inputEvent.ctrlKey){
-                            // open in same window
-                        } else {
-                            window.open(top_result.url);
-                            destroyOverlay();
-                        }
+                if (!document.querySelector('.focused')){
+                    setTimeout(() => animateFocusedSearchResult(0), 300);
+                    giveElementFocusedClass(0);
                 }
+                // Handle keydown at the searchInput element
             }
         }
         return true
@@ -73,16 +75,18 @@ function setUpInputEventListener() {
 function isValidInputEvent(key) {
     const isAlphabetical = (key >= "a" && key <= "z");
     const isNumeric = (key >= "0" && key <= "9");
-    const isBackspace = key === "Backspace";
-    return isAlphabetical || isNumeric || isBackspace
+    const isBackspace = (key === "Backspace");
+    const isEnter = (key === "Enter");
+    return isAlphabetical || isNumeric || isBackspace || isEnter
 }
 
 function moveUpOneResult() {
-    const focusedElement = document.activeElement;
-    const indexOfLastFocus = focusedElement.getAttribute('class').split('-');
+    const focusedElement = document.querySelector('.focused');
+    const indexOfLastFocus = focusedElement.getAttribute('class').split(' ')[1].split('-');
     const index = parseInt(indexOfLastFocus[indexOfLastFocus.length - 1]) - 1;
     document.querySelector(`.skater-result-${index}`).focus();
     updateSearchResultsCSS(index);
+    focusInput();
 }
 
 function moveDownOneResult() {
@@ -93,7 +97,7 @@ function moveDownOneResult() {
         index = 1;
     } else {
         // move to next search result
-        const indexOfLastFocus = focusedElement.getAttribute('class').split('-');
+        const indexOfLastFocus = document.querySelectorAll('.focused').getAttribute('class').split('-');
         index = parseInt(indexOfLastFocus[indexOfLastFocus.length - 1]) + 1;
         if (document.querySelector(`.skater-result-${index}`)) {
             document.querySelector(`.skater-result-${index}`).focus();
@@ -102,10 +106,10 @@ function moveDownOneResult() {
         }
     }
     updateSearchResultsCSS(index);
+    focusInput();
 }
 
 function animateFocusedSearchResult(index) {
-    console.log(`animating ${index}`);
     const focusedElement = document.querySelector(`.skater-result-${index}`);
     if (focusedElement) {
         focusedElement.parentElement.style['background-position-y'] = '100%';
@@ -117,10 +121,31 @@ function animateFocusedSearchResult(index) {
 function updateSearchResultsCSS(index) {
     const searchElements = getSearchResultsElementChildren();
     searchElements.forEach(e => {
-        resetListElementCSS(e.parentElement);
+        resetListElementCSS(e.parentElement, index);
+        resetListElementClass(e);
     });
     // color focused element
+    giveElementFocusedClass(index);
     animateFocusedSearchResult(index);
+}
+
+function resetListElementClass(skaterLinkElement) {
+    const elementRootClass = stripFocusFromClass(skaterLinkElement.getAttribute('class')); 
+    skaterLinkElement.setAttribute('class', elementRootClass);
+}
+
+function stripFocusFromClass(classString) {
+    const rootClassList = classString.split(' ');
+    if (classString.length > 2) {
+        return rootClassList.slice(0, 2).join(' ');
+    } else {
+        return classString
+    }
+}
+
+function giveElementFocusedClass(index) {
+    const focusedElement = document.querySelector(`.skater-result-${index}`);
+    focusedElement.setAttribute('class', `skater-link skater-result-${index} focused`)
 }
 
 
@@ -214,7 +239,8 @@ function createSearchResultsList() {
     return resultsDiv
 }
 
-function resetListElementCSS(listElement) {
+function resetListElementCSS(listElement, index) {
+    listElement.setAttribute('class', 'unselected');
     listElement.style['background-position-y'] = "-0%";
     listElement.style['background-image'] = 'linear-gradient(#f5f5f5 50%, #c6f6d5 50%)';
     listElement.style['transition'] = 'background 200ms ease';
@@ -240,7 +266,7 @@ function createListItem(result, index) {
     listURL.style.color = "black";
 
     listElement.setAttribute('class', `searchResultItem`);
-    resetListElementCSS(listElement);
+    resetListElementCSS(listElement, index);
 
     if (result.title.length > 27) {
         listURL.innerHTML = result.title.substring(0, 27) + '...';
