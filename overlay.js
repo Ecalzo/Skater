@@ -62,10 +62,9 @@ function setUpInputEventListener() {
             nodes = updateSearchText(refinedResults);
             if (refinedResults.length) {
                 if (!document.querySelector('.focused')){
-                    setTimeout(() => animateFocusedSearchResult(0), 300);
+                    setTimeout(() => animateFocusedSearchResult(0), 100);
                     giveElementFocusedClass(0);
                 }
-                // Handle keydown at the searchInput element
             }
         }
         return true
