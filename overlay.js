@@ -5,6 +5,7 @@ document.addEventListener('keydown', documentEvent => {
         setUpInputEventListener();
         setTimeout(() => focusInput(), 100);
     } else if (getSearchInputElement()) {
+        focusInput();
         const focusedElement = document.querySelector('.focused');
         switch(documentEvent.key) {
             case "Up":
