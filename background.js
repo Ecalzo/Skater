@@ -12,15 +12,3 @@ chrome.runtime.onMessage.addListener(
     return true
   }
 );
-
-
-function searchBookmarks(query) {
-  console.log('searching bookmarks');
-  if (query.length) {
-    return new Promise((resolve, _reject) => {
-      chrome.bookmarks.search(query, resolve);
-    });
-  } else {
-      return Promise.resolve([]); 
-  }
-}
