@@ -264,6 +264,7 @@ function createListItem(result, index) {
 
     listURL.setAttribute('class', `skater-link skater-result-${index}`);
     listURL.style.color = "black";
+    listURL.style['text-decoration'] = 'none';
 
     listElement.setAttribute('class', `searchResultItem`);
     resetListElementCSS(listElement, index);
