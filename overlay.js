@@ -10,12 +10,10 @@ document.addEventListener('keydown', documentEvent => {
         switch(documentEvent.key) {
             case "Up":
             case "ArrowUp":
-                // move to last search result or input
-                // FIXME functionize
                 if (focusedElement.getAttribute('class') === 'skater-link skater-result-0 skater-focused') {
                     focusInput();
-                    // FIXME: implement preventDefault better
                 } else if (focusedElement.isSameNode(getSearchInputElement())) {
+                    // do nothing
                 } else {
                     // move to previous result
                     moveUpOneResult();
@@ -59,7 +57,7 @@ function setUpInputEventListener() {
             const refinedResults = refineResults(bookmarkSearchResults, query);
             updateSearchText(refinedResults);
             if (refinedResults.length) {
-                if (!document.querySelector('.skater-focused')){
+                if (!document.querySelector('.skater-focused')) {
                     setTimeout(() => animateFocusedSearchResult(0), 100);
                     giveElementFocusedClass(0);
                 }
@@ -83,11 +81,16 @@ function stripIndexFromClass(element) {
 }
 
 function moveUpOneResult() {
-    const indexOfLastFocus = stripIndexFromClass(getFocusedListElement());
-    const index = indexOfLastFocus - 1;
-    document.querySelector(`.skater-result-${index}`).focus();
-    updateSearchResultsCSS(index);
-    focusInput();
+    if (getFocusedListElement().getAttribute('class') === 'skater-link skater-result-0 skater-focused') {
+        focusInput();
+    } else if (getFocusedListElement().isSameNode(getSearchInputElement())) {
+        // do nothing
+    } else {
+        const indexOfLastFocus = stripIndexFromClass(getFocusedListElement());
+        const index = indexOfLastFocus - 1;
+        updateSearchResultsCSS(index);
+        focusInput();
+    }
 }
 
 function moveDownOneResult() {
@@ -97,7 +100,7 @@ function moveDownOneResult() {
     // handle if you are already focused on the last list item
     if (document.querySelector(`.skater-result-${index}`)) {
         updateSearchResultsCSS(index);
-    } 
+    }
     focusInput();
 }
 
