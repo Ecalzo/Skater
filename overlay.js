@@ -299,7 +299,7 @@ function refineResults(searchResults, query) {
       const bookmarkTitle = result.title.substring(0, queryLen).toLowerCase();
       return bookmarkTitle.includes(queryLower) & result.hasOwnProperty('url');
     });
-  }
+}
 
 function updateSearchText(results) {
     const resultsDiv = getSearchResultsElement();
