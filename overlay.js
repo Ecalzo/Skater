@@ -6,7 +6,7 @@ document.addEventListener('keydown', documentEvent => {
         setTimeout(() => focusInput(), 100);
     } else if (getSearchInputElement()) {
         focusInput();
-        const focusedElement = document.querySelector('.focused');
+        const focusedElement = document.querySelector('.skater-focused');
         switch(documentEvent.key) {
             case "Up":
             case "ArrowUp":
@@ -30,7 +30,7 @@ document.addEventListener('keydown', documentEvent => {
                 return true
             case "Enter":
                 // go to first inputEvent in the list
-                const selectedResult = document.querySelector('.focused');
+                const selectedResult = document.querySelector('.skater-focused');
                 console.log(selectedResult);
                 // TODO use chrome.tabs.create by sending this as message to background.js
                 if (documentEvent.ctrlKey){
@@ -59,7 +59,7 @@ function setUpInputEventListener() {
             const refinedResults = refineResults(bookmarkSearchResults, query);
             nodes = updateSearchText(refinedResults);
             if (refinedResults.length) {
-                if (!document.querySelector('.focused')){
+                if (!document.querySelector('.skater-focused')){
                     setTimeout(() => animateFocusedSearchResult(0), 100);
                     giveElementFocusedClass(0);
                 }
@@ -78,7 +78,7 @@ function isValidInputEvent(key) {
 }
 
 function moveUpOneResult() {
-    const focusedElement = document.querySelector('.focused');
+    const focusedElement = document.querySelector('.skater-focused');
     const indexOfLastFocus = focusedElement.getAttribute('class').split(' ')[1].split('-');
     const index = parseInt(indexOfLastFocus[indexOfLastFocus.length - 1]) - 1;
     document.querySelector(`.skater-result-${index}`).focus();
@@ -94,7 +94,7 @@ function moveDownOneResult() {
         index = 1;
     } else {
         // move to next search result
-        const indexOfLastFocus = document.querySelectorAll('.focused').getAttribute('class').split('-');
+        const indexOfLastFocus = document.querySelectorAll('.skater-focused').getAttribute('class').split('-');
         index = parseInt(indexOfLastFocus[indexOfLastFocus.length - 1]) + 1;
         if (document.querySelector(`.skater-result-${index}`)) {
             document.querySelector(`.skater-result-${index}`).focus();
@@ -142,7 +142,7 @@ function stripFocusFromClass(classString) {
 
 function giveElementFocusedClass(index) {
     const focusedElement = document.querySelector(`.skater-result-${index}`);
-    focusedElement.setAttribute('class', `skater-link skater-result-${index} focused`)
+    focusedElement.setAttribute('class', `skater-link skater-result-${index} skater-focused`)
 }
 
 
