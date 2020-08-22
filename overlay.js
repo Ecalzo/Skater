@@ -94,8 +94,10 @@ function moveDownOneResult() {
     let index;
     const indexOfLastFocus = stripIndexFromClass(getFocusedListElement());
     index = indexOfLastFocus + 1;
-
-    updateSearchResultsCSS(index);
+    // handle if you are already focused on the last list item
+    if (document.querySelector(`.skater-result-${index}`)) {
+        updateSearchResultsCSS(index);
+    } 
     focusInput();
 }
 
