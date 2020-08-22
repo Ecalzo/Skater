@@ -48,7 +48,8 @@ document.addEventListener('keydown', documentEvent => {
 function setUpInputEventListener() {
     const searchInput = getSearchInputElement();
     searchInput.addEventListener('keyup', async function(inputEvent) {
-        const bookmarkSearchResults = await searchBookmarks(searchInput.value);
+        const query = searchInput.value;
+        const bookmarkSearchResults = await searchBookmarks(query);
         // refine results
         if (Array.isArray(bookmarkSearchResults) && isValidInputEvent(inputEvent.key)) {
             const refinedResults = refineResults(bookmarkSearchResults, query);
@@ -72,7 +73,7 @@ function isValidInputEvent(key) {
     return isAlphabetical || isNumeric || isBackspace || isEnter
 }
 
-function stripIndexFromElementClass(element) {
+function stripIndexFromClass(element) {
     const classString = element.getAttribute('class').split(' ')[1].split('-'); 
     return parseInt(classString[classString.length - 1]);
 }
@@ -83,7 +84,7 @@ function moveUpOneResult() {
     } else if (getFocusedListElement().isSameNode(getSearchInputElement())) {
         // do nothing
     } else {
-        const indexOfLastFocus = stripIndexFromElementClass(getFocusedListElement());
+        const indexOfLastFocus = stripIndexFromClass(getFocusedListElement());
         const index = indexOfLastFocus - 1;
         updateSearchResultsCSS(index);
         focusInput();
@@ -92,7 +93,7 @@ function moveUpOneResult() {
 
 function moveDownOneResult() {
     let index;
-    const indexOfLastFocus = stripIndexFromElementClass(getFocusedListElement());
+    const indexOfLastFocus = stripIndexFromClass(getFocusedListElement());
     index = indexOfLastFocus + 1;
     // handle if you are already focused on the last list item
     if (document.querySelector(`.skater-result-${index}`)) {
