@@ -57,7 +57,7 @@ function setUpInputEventListener() {
         // refine results
         if (Array.isArray(bookmarkSearchResults) && isValidInputEvent(inputEvent.key)) {
             const refinedResults = refineResults(bookmarkSearchResults, query);
-            nodes = updateSearchText(refinedResults);
+            updateSearchText(refinedResults);
             if (refinedResults.length) {
                 if (!document.querySelector('.skater-focused')){
                     setTimeout(() => animateFocusedSearchResult(0), 100);
