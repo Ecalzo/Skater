@@ -23,14 +23,12 @@ document.addEventListener('keydown', documentEvent => {
             case "Down":
             case "ArrowDown":
                 // move to next search result
-                // FIXME: check if this is the last element
                 moveDownOneResult();
                 return true
             case "Enter":
                 // go to first inputEvent in the list
                 const selectedResult = getFocusedListElement();
                 console.log(selectedResult);
-                // TODO use chrome.tabs.create by sending this as message to background.js
                 if (documentEvent.ctrlKey){
                     // open in same window
                 } else {
@@ -38,8 +36,8 @@ document.addEventListener('keydown', documentEvent => {
                     window.open(selectedResult.href);
                     destroyOverlay();                    
                 }
-                case "Escape":
-                    destroyOverlay();
+            case "Escape":
+                destroyOverlay();
         }
     }
     if (documentEvent.key === "Escape") {
