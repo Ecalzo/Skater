@@ -6,7 +6,7 @@ document.addEventListener('keydown', documentEvent => {
         setTimeout(() => focusInput(), 100);
     } else if (getSearchInputElement()) {
         focusInput();
-        const focusedElement = document.querySelector('.skater-focused');
+        const focusedElement = getFocusedListElement();
         switch(documentEvent.key) {
             case "Up":
             case "ArrowUp":
@@ -30,7 +30,7 @@ document.addEventListener('keydown', documentEvent => {
                 return true
             case "Enter":
                 // go to first inputEvent in the list
-                const selectedResult = document.querySelector('.skater-focused');
+                const selectedResult = getFocusedListElement();
                 console.log(selectedResult);
                 // TODO use chrome.tabs.create by sending this as message to background.js
                 if (documentEvent.ctrlKey){
@@ -78,7 +78,7 @@ function isValidInputEvent(key) {
 }
 
 function moveUpOneResult() {
-    const focusedElement = document.querySelector('.skater-focused');
+    const focusedElement = getFocusedListElement();
     const indexOfLastFocus = focusedElement.getAttribute('class').split(' ')[1].split('-');
     const index = parseInt(indexOfLastFocus[indexOfLastFocus.length - 1]) - 1;
     document.querySelector(`.skater-result-${index}`).focus();
@@ -145,6 +145,9 @@ function giveElementFocusedClass(index) {
     focusedElement.setAttribute('class', `skater-link skater-result-${index} skater-focused`)
 }
 
+function getFocusedListElement() {
+    return focusedElement = getFocusedListElement();
+}
 
 function getSearchInputElement() {
     return document.getElementById("searchInput");
