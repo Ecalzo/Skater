@@ -15,21 +15,19 @@ document.addEventListener('keydown', documentEvent => {
                 if (focusedElement.getAttribute('class') === 'skater-link skater-result-0 focused') {
                     focusInput();
                     // FIXME: implement preventDefault better
-                    return true
                 } else if (focusedElement.isSameNode(getSearchInputElement())) {
-                    return true
                 } else {
                     // move to previous result
                     moveUpOneResult();
                     documentEvent.preventDefault();
-                    return true
                 }
+                return true
             case "Down":
             case "ArrowDown":
-                    // move to next search result
-                    // FIXME: check if this is the last element
-                    moveDownOneResult();
-                    return true
+                // move to next search result
+                // FIXME: check if this is the last element
+                moveDownOneResult();
+                return true
             case "Enter":
                 // go to first inputEvent in the list
                 const selectedResult = document.querySelector('.focused');
