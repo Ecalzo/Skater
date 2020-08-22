@@ -251,8 +251,8 @@ function createListItem(result, index) {
     const listURL = document.createElement('a');
     const listIMG = document.createElement('img');
 
-    var matches = result.url.match(/^https?\:\/\/(?:www\.)?([^\/?#]+)(?:[\/?#]|$)/i);
-    var domain = matches && matches[1] // domain is null if no matches found
+    const matches = result.url.match(/^https?\:\/\/(?:www\.)?([^\/?#]+)(?:[\/?#]|$)/i);
+    const domain = matches && matches[1] // domain is null if no matches found
 
     listIMG.src = `https://www.google.com/s2/favicons?domain_url=${domain}`;
     listIMG.style.padding = '0% 5% 0% 5%';
