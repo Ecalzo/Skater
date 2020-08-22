@@ -15,7 +15,6 @@ document.addEventListener('keydown', documentEvent => {
                 if (focusedElement.getAttribute('class') === 'skater-link skater-result-0 focused') {
                     focusInput();
                     // FIXME: implement preventDefault better
-                    documentEvent.preventDefault();
                     return true
                 } else if (focusedElement.isSameNode(getSearchInputElement())) {
                     return true
@@ -29,7 +28,6 @@ document.addEventListener('keydown', documentEvent => {
             case "ArrowDown":
                     // move to next search result
                     // FIXME: check if this is the last element
-                    documentEvent.preventDefault();
                     moveDownOneResult();
                     return true
             case "Enter":
