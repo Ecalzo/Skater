@@ -38,12 +38,13 @@ document.addEventListener('keydown', documentEvent => {
                 } else {
                     console.log(selectedResult);
                     window.open(selectedResult.href);
+                    destroyOverlay();                    
+                }
+                case "Escape":
                     destroyOverlay();
-            }
         }
     }
     if (documentEvent.key === "Escape") {
-        destroyOverlay();
     }
     return true
 });
