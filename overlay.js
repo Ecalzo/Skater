@@ -53,7 +53,7 @@ function setUpInputEventListener() {
         // refine results
         if (Array.isArray(bookmarkSearchResults) && isValidInputEvent(inputEvent.key)) {
             const refinedResults = refineResults(bookmarkSearchResults, query);
-            updateSearchText(refinedResults);
+            refreshActiveSearchResults(refinedResults);
             if (refinedResults.length) {
                 if (!document.querySelector('.skater-focused')) {
                     setTimeout(() => animateFocusedSearchResult(0), 100);
@@ -299,7 +299,7 @@ function refineResults(searchResults, query) {
     });
 }
 
-function updateSearchText(results) {
+function refreshActiveSearchResults(results) {
     const resultsDiv = getSearchResultsElement();
     // wipes the unordered list
     resultsDiv.innerHTML = '';
