@@ -48,8 +48,7 @@ document.addEventListener('keydown', documentEvent => {
 function setUpInputEventListener() {
     const searchInput = getSearchInputElement();
     searchInput.addEventListener('keyup', async function(inputEvent) {
-        const query = searchInput.value;
-        const bookmarkSearchResults = await searchBookmarks(query);
+        const bookmarkSearchResults = await searchBookmarks(searchInput.value);
         // refine results
         if (Array.isArray(bookmarkSearchResults) && isValidInputEvent(inputEvent.key)) {
             const refinedResults = refineResults(bookmarkSearchResults, query);
