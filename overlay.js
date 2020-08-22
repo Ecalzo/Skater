@@ -12,7 +12,7 @@ document.addEventListener('keydown', documentEvent => {
             case "ArrowUp":
                 // move to last search result or input
                 // FIXME functionize
-                if (focusedElement.getAttribute('class') === 'skater-link skater-result-0 focused') {
+                if (focusedElement.getAttribute('class') === 'skater-link skater-result-0 skater-focused') {
                     focusInput();
                     // FIXME: implement preventDefault better
                 } else if (focusedElement.isSameNode(getSearchInputElement())) {
@@ -77,31 +77,24 @@ function isValidInputEvent(key) {
     return isAlphabetical || isNumeric || isBackspace || isEnter
 }
 
+function stripIndexFromClass(element) {
+    const classString = element.getAttribute('class').split(' ')[1].split('-'); 
+    return parseInt(classString[classString.length - 1]);
+}
+
 function moveUpOneResult() {
-    const focusedElement = getFocusedListElement();
-    const indexOfLastFocus = focusedElement.getAttribute('class').split(' ')[1].split('-');
-    const index = parseInt(indexOfLastFocus[indexOfLastFocus.length - 1]) - 1;
+    const indexOfLastFocus = stripIndexFromClass(getFocusedListElement());
+    const index = indexOfLastFocus - 1;
     document.querySelector(`.skater-result-${index}`).focus();
     updateSearchResultsCSS(index);
     focusInput();
 }
 
 function moveDownOneResult() {
-    const focusedElement = document.activeElement;
     let index;
-    if (focusedElement.isSameNode(getSearchInputElement()) && document.querySelector('.skater-result-1')) {
-        document.querySelector('.skater-result-1').focus();
-        index = 1;
-    } else {
-        // move to next search result
-        const indexOfLastFocus = document.querySelectorAll('.skater-focused').getAttribute('class').split('-');
-        index = parseInt(indexOfLastFocus[indexOfLastFocus.length - 1]) + 1;
-        if (document.querySelector(`.skater-result-${index}`)) {
-            document.querySelector(`.skater-result-${index}`).focus();
-        } else {
-            index = indexOfLastFocus[indexOfLastFocus.length - 1];
-        }
-    }
+    const indexOfLastFocus = stripIndexFromClass(getFocusedListElement());
+    index = indexOfLastFocus + 1;
+
     updateSearchResultsCSS(index);
     focusInput();
 }
@@ -142,11 +135,11 @@ function stripFocusFromClass(classString) {
 
 function giveElementFocusedClass(index) {
     const focusedElement = document.querySelector(`.skater-result-${index}`);
-    focusedElement.setAttribute('class', `skater-link skater-result-${index} skater-focused`)
+    focusedElement.setAttribute('class', `skater-link skater-result-${index} skater-focused`);
 }
 
 function getFocusedListElement() {
-    return focusedElement = getFocusedListElement();
+    return document.querySelector('.skater-focused');
 }
 
 function getSearchInputElement() {
@@ -324,7 +317,7 @@ function focusInput() {
 }
 
 function searchBookmarks(query) {
-    if (query.length > 1) {
+    if (query.length > 0) {
         return new Promise((resolve, _reject) => {
             chrome.runtime.sendMessage({queryBody: query}, resolve);
         });
