@@ -72,7 +72,7 @@ function isValidInputEvent(key) {
     return isAlphabetical || isNumeric || isBackspace || isEnter
 }
 
-function stripIndexFromClass(element) {
+function stripIndexFromElementClass(element) {
     const classString = element.getAttribute('class').split(' ')[1].split('-'); 
     return parseInt(classString[classString.length - 1]);
 }
@@ -83,7 +83,7 @@ function moveUpOneResult() {
     } else if (getFocusedListElement().isSameNode(getSearchInputElement())) {
         // do nothing
     } else {
-        const indexOfLastFocus = stripIndexFromClass(getFocusedListElement());
+        const indexOfLastFocus = stripIndexFromElementClass(getFocusedListElement());
         const index = indexOfLastFocus - 1;
         updateSearchResultsCSS(index);
         focusInput();
@@ -92,7 +92,7 @@ function moveUpOneResult() {
 
 function moveDownOneResult() {
     let index;
-    const indexOfLastFocus = stripIndexFromClass(getFocusedListElement());
+    const indexOfLastFocus = stripIndexFromElementClass(getFocusedListElement());
     index = indexOfLastFocus + 1;
     // handle if you are already focused on the last list item
     if (document.querySelector(`.skater-result-${index}`)) {
