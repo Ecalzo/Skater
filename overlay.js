@@ -256,6 +256,7 @@ function createListItem(result, index) {
     listIMG.src = `https://www.google.com/s2/favicons?domain_url=${domain}`;
     listIMG.style.padding = '0% 5% 0% 5%';
     listIMG.style['margin-bottom'] = '-1%';
+    listIMG.style.display = 'inline';
     listIMG.setAttribute('class', 'domain-icon');
 
     listURL.setAttribute('class', `skater-link skater-result-${index}`);
