@@ -1,5 +1,5 @@
 document.addEventListener('keydown', documentEvent => {
-    if (documentEvent.shiftKey && documentEvent.key === 'L' && !document.querySelector('#skater-overlay')) {
+    if ((documentEvent.ctrlKey || documentEvent.metaKey) && documentEvent.key === 'j' && !document.querySelector('#skater-overlay')) {
         // const browser = chrome || browser;
         createOverlay();
         setUpInputEventListener();
