@@ -1,6 +1,11 @@
 document.addEventListener('keydown', documentEvent => {
-    if ((documentEvent.ctrlKey || documentEvent.metaKey) && documentEvent.key === 'k' && !document.querySelector('#skater-overlay')) {
-        // const browser = chrome || browser;
+    const isUnix = navigator.platform.toUpperCase().indexOf('MAC') >= 0 || navigator.platform.toUpperCase().indexOf('LINUX') >= 0;
+    if (
+        (documentEvent.ctrlKey && !isUnix)
+        || (documentEvent.metaKey && isUnix)
+        && documentEvent.key === 'k'
+        && !document.querySelector('#skater-overlay')
+    ) {
         createOverlay();
         setUpInputEventListener();
         setTimeout(() => focusInput(), 100);
