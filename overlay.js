@@ -297,11 +297,9 @@ function ensureResultsListIsHidden() {
 
 function refineResults(searchResults, query) {
     return searchResults.filter(result => {
-      // cuts bookmark Title down to a substring for closer matching
-      const queryLen = query.length;
       const queryLower = query.toLowerCase();
-      const bookmarkTitle = result.title.substring(0, queryLen).toLowerCase();
-      return bookmarkTitle.includes(queryLower) & result.hasOwnProperty('url');
+      const bookmarkTitle = result.title.toLowerCase();
+      return (bookmarkTitle.includes(queryLower) || result.url.includes(queryLower)) && result.hasOwnProperty('url');
     });
 }
 
