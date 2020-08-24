@@ -15,16 +15,18 @@
         "default_popup": "popup.html",
         "default_icon": "icon128.png"
     },
-    "commands": {
-        "_execute_browser_action": {
-            "suggested_key": {
-                "default": "Ctrl+Shift+L",
-                "mac": "Command+Shift+L"
-            },
-            "description":"Opens popup.html"
-        }
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
     },
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["overlay.js"]
+        }
+    ],
     "permissions": [
-        "bookmarks"
+        "bookmarks",
+        "activeTab"
     ]
 }
