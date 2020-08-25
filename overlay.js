@@ -1,9 +1,9 @@
-document.addEventListener('keydown', documentEvent => {
+document.addEventListener('keydown', async function(documentEvent) {
     const isUnix = navigator.platform.toUpperCase().indexOf('MAC') >= 0 || navigator.platform.toUpperCase().indexOf('LINUX') >= 0;
     if (
-        (documentEvent.ctrlKey && !isUnix)
-        || (documentEvent.metaKey && isUnix)
-        && documentEvent.key === 'k'
+        ((documentEvent.ctrlKey && !isUnix)
+        || (documentEvent.metaKey && isUnix))
+        && documentEvent.key === 'm'
         && !document.querySelector('#skater-overlay')
     ) {
         createOverlay();
@@ -33,12 +33,10 @@ document.addEventListener('keydown', documentEvent => {
             case "Enter":
                 // go to first inputEvent in the list
                 const selectedResult = getFocusedListElement();
-                console.log(selectedResult);
                 if (documentEvent.ctrlKey){
                     // open in same window
                 } else {
-                    console.log(selectedResult);
-                    window.open(selectedResult.href);
+                    await goTo(selectedResult.href);
                     destroyOverlay();                    
                 }
             case "Escape":
@@ -68,6 +66,15 @@ function setUpInputEventListener() {
         }
         return true
     });
+}
+
+async function goTo(url) {
+    // checks if a tab with this url already exists
+    // if so, go to it, else open a new window
+    const openTab = await queryTabs(url);
+    if (!openTab.length){
+        window.open(url);
+    }
 }
 
 function isValidInputEvent(key) {
@@ -327,6 +334,16 @@ function searchBookmarks(query) {
     if (query.length > 0) {
         return new Promise((resolve, _reject) => {
             chrome.runtime.sendMessage({queryBody: query}, resolve);
+        });
+    } else {
+        return Promise.resolve([]);
+    }
+}
+
+function queryTabs(query) {
+    if (query.length > 0) {
+        return new Promise((resolve, _reject_) => {
+            chrome.runtime.sendMessage({url: query}, resolve);
         });
     } else {
         return Promise.resolve([]);
