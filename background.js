@@ -5,11 +5,20 @@ chrome.runtime.onMessage.addListener(
         sendResponse(results);
       });
     } else if (request.url) {
-      chrome.tabs.query({url: request.url}, e => {
-        if (e.length) {
+        let queryUrl;
+        if (request.url.split('/').length > 4) {
+          // workaround for chrome bug
+          // remove the / at the end of the url
+          queryUrl = request.url.replace(/\/$/, "");
+        } else {
+          queryUrl = request.url
+        }
+        chrome.tabs.query({url: queryUrl}, e => {
+        if (e.length) { // if the tab exists, go to it
           chrome.tabs.update(e[0].id, {active: true});
           sendResponse(e);
-        } else {
+        } else { // else, open a new tab
+          chrome.tabs.create({url: request.url, active: true});
           sendResponse([]);
         }
       });
