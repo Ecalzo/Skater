@@ -1,7 +1,7 @@
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-    if (request.queryBody && request.queryBody.length) {
-      chrome.bookmarks.search(request.queryBody, results => {
+    if (request.userSearch && request.userSearch.length) {
+      chrome.bookmarks.search(request.userSearch, results => {
         sendResponse(results);
       });
     } else if (request.url) {
