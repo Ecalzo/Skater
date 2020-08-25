@@ -1,9 +1,17 @@
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-    if (request.queryBody.length) {
+    if (request.queryBody && request.queryBody.length) {
       chrome.bookmarks.search(request.queryBody, results => {
-        console.log(results);
         sendResponse(results);
+      });
+    } else if (request.url) {
+      chrome.tabs.query({url: request.url}, e => {
+        if (e.length) {
+          chrome.tabs.update(e[0].id, {active: true});
+          sendResponse(e);
+        } else {
+          sendResponse([]);
+        }
       });
     } else {
       sendResponse([]);
@@ -12,3 +20,5 @@ chrome.runtime.onMessage.addListener(
     return true
   }
 );
+
+
