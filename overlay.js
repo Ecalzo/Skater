@@ -52,7 +52,7 @@ function setUpInputEventListener() {
     const searchInput = getSearchInputElement();
     searchInput.addEventListener('keyup', async function(inputEvent) {
         const query = searchInput.value;
-        const bookmarkSearchResults = await searchBookmarks(query);
+        const bookmarkSearchResults = await sendBackgroundMessage({userSearch: query});
         // refine results
         if (Array.isArray(bookmarkSearchResults) && isValidInputEvent(inputEvent.key)) {
             const refinedResults = refineResults(bookmarkSearchResults, query);
@@ -71,7 +71,7 @@ function setUpInputEventListener() {
 async function goTo(url) {
     // checks if a tab with this url already exists
     // if so, go to it, else open a new window
-    const openTab = await queryTabs(url);
+    const openTab = await sendBackgroundMessage({url: query});
     if (!openTab.length){
         window.open(url);
     }
@@ -330,20 +330,10 @@ function focusInput() {
     getSearchInputElement().focus();
 }
 
-function searchBookmarks(query) {
-    if (query.length > 0) {
+function sendBackgroundMessage(query_object) {
+    if ((query_object.url && query_object.url.length > 0) || (query_object.userSearch && query_object.userSearch.length)) {
         return new Promise((resolve, _reject) => {
-            chrome.runtime.sendMessage({queryBody: query}, resolve);
-        });
-    } else {
-        return Promise.resolve([]);
-    }
-}
-
-function queryTabs(query) {
-    if (query.length > 0) {
-        return new Promise((resolve, _reject_) => {
-            chrome.runtime.sendMessage({url: query}, resolve);
+            chrome.runtime.sendMessage(query_object, resolve);
         });
     } else {
         return Promise.resolve([]);
