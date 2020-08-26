@@ -36,8 +36,8 @@ document.addEventListener('keydown', async function(documentEvent) {
                 if (documentEvent.ctrlKey){
                     // open in same window
                 } else {
+                    destroyOverlay();                   
                     await goTo(selectedResult.href);
-                    destroyOverlay();                    
                 }
             case "Escape":
                 destroyOverlay();
@@ -71,10 +71,7 @@ function setUpInputEventListener() {
 async function goTo(url) {
     // checks if a tab with this url already exists
     // if so, go to it, else open a new window
-    const openTab = await sendBackgroundMessage({url: query});
-    if (!openTab.length){
-        window.open(url);
-    }
+    await sendBackgroundMessage({url: url});
 }
 
 function isValidInputEvent(key) {
