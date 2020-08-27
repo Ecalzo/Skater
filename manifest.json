@@ -3,7 +3,7 @@
 
     "name": "Skater",
     "description": "Spotlight-like extension for Chrome bookmarks",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "icons": {
         "16": "icon16.png",
         "24": "icon24.png",
@@ -21,7 +21,7 @@
     },
     "content_scripts": [
         {
-            "matches": ["<all_urls>"],
+            "matches": ["*://*/*"],
             "js": ["overlay.js"]
         }
     ],
