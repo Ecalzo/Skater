@@ -27,7 +27,6 @@
     ],
     "permissions": [
         "bookmarks",
-        "activeTab",
         "tabs"
     ]
 }
