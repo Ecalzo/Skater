@@ -1,9 +1,9 @@
-document.addEventListener('keydown', documentEvent => {
+document.addEventListener('keydown', async function(documentEvent) {
     const isUnix = navigator.platform.toUpperCase().indexOf('MAC') >= 0 || navigator.platform.toUpperCase().indexOf('LINUX') >= 0;
     if (
-        (documentEvent.ctrlKey && !isUnix)
-        || (documentEvent.metaKey && isUnix)
-        && documentEvent.key === 'k'
+        ((documentEvent.ctrlKey && !isUnix)
+        || (documentEvent.metaKey && isUnix))
+        && documentEvent.key === ']'
         && !document.querySelector('#skater-overlay')
     ) {
         createOverlay();
@@ -33,13 +33,11 @@ document.addEventListener('keydown', documentEvent => {
             case "Enter":
                 // go to first inputEvent in the list
                 const selectedResult = getFocusedListElement();
-                console.log(selectedResult);
                 if (documentEvent.ctrlKey){
                     // open in same window
                 } else {
-                    console.log(selectedResult);
-                    window.open(selectedResult.href);
-                    destroyOverlay();                    
+                    destroyOverlay();                   
+                    await goTo(selectedResult.href);
                 }
             case "Escape":
                 destroyOverlay();
@@ -54,7 +52,7 @@ function setUpInputEventListener() {
     const searchInput = getSearchInputElement();
     searchInput.addEventListener('keyup', async function(inputEvent) {
         const query = searchInput.value;
-        const bookmarkSearchResults = await searchBookmarks(query);
+        const bookmarkSearchResults = await sendBackgroundMessage({userSearch: query});
         // refine results
         if (Array.isArray(bookmarkSearchResults) && isValidInputEvent(inputEvent.key)) {
             const refinedResults = refineResults(bookmarkSearchResults, query);
@@ -68,6 +66,12 @@ function setUpInputEventListener() {
         }
         return true
     });
+}
+
+async function goTo(url) {
+    // checks if a tab with this url already exists
+    // if so, go to it, else open a new window
+    await sendBackgroundMessage({url: url});
 }
 
 function isValidInputEvent(key) {
@@ -323,10 +327,10 @@ function focusInput() {
     getSearchInputElement().focus();
 }
 
-function searchBookmarks(query) {
-    if (query.length > 0) {
+function sendBackgroundMessage(query_object) {
+    if ((query_object.url && query_object.url.length > 0) || (query_object.userSearch && query_object.userSearch.length)) {
         return new Promise((resolve, _reject) => {
-            chrome.runtime.sendMessage({queryBody: query}, resolve);
+            chrome.runtime.sendMessage(query_object, resolve);
         });
     } else {
         return Promise.resolve([]);
