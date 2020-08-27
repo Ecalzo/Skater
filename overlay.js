@@ -3,7 +3,7 @@ document.addEventListener('keydown', async function(documentEvent) {
     if (
         ((documentEvent.ctrlKey && !isUnix)
         || (documentEvent.metaKey && isUnix))
-        && documentEvent.key === ']'
+        && documentEvent.key === '/'
         && !document.querySelector('#skater-overlay')
     ) {
         createOverlay();
