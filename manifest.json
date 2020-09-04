@@ -28,5 +28,14 @@
     "permissions": [
         "bookmarks",
         "tabs"
-    ]
+    ],
+    "commands": {
+        "launch": {
+          "suggested_key": {
+            "default": "Ctrl+Shift+Y",
+            "mac": "Command+Shift+Y"
+          },
+          "description": "launch Skater"
+        }
+    }
 }
