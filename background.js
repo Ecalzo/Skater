@@ -31,10 +31,10 @@ chrome.runtime.onMessage.addListener(
 );
 
 chrome.commands.onCommand.addListener(function(command) {
-  sendMessage({command: command});
+  sendContentScriptMessage({command: command});
 });
 
-function sendMessage(query_object) {
+function sendContentScriptMessage(query_object) {
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     chrome.tabs.sendMessage(tabs[0].id, query_object, function(response) {
       console.log(response);
