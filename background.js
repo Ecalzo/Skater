@@ -19,7 +19,7 @@ chrome.runtime.onMessage.addListener(
         } else { // else, open a new tab
           chrome.tabs.create({url: request.url, active: true});
         }
-      });
+        });
     } else {
       sendResponse([]);
     }
@@ -31,6 +31,7 @@ chrome.runtime.onMessage.addListener(
 chrome.commands.onCommand.addListener(function(command) {
   // This is waiting for the 'launch' command to trigger
   sendContentScriptMessage({command: command});
+  return true
 });
 
 function sendContentScriptMessage(query_object) {
