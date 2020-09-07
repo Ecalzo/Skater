@@ -49,8 +49,6 @@ async function setUpOverlayEventListener() {
                     destroyOverlay();
             }
         }
-        if (documentEvent.key === "Escape") {
-        }
         return true
     });
 }
