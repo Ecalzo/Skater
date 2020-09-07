@@ -1,10 +1,13 @@
 chrome.runtime.onMessage.addListener(
     async function(_, _, _) {
+        // check if our overlay exists already
         if (!document.querySelector('#skater-overlay')) {
             createOverlay();
             setUpInputEventListener();
             setTimeout(() => focusInput(), 100);
             await setUpDocumentEventListener();
+        } else {
+            focusInput();
         }
         return true
 });
