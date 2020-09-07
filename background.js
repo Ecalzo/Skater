@@ -14,11 +14,11 @@ chrome.runtime.onMessage.addListener(
           queryUrl = request.url
         }
         chrome.tabs.query({url: queryUrl}, e => {
-        if (e.length) { // if the tab exists, go to it
-          chrome.tabs.update(e[0].id, {active: true});
-        } else { // else, open a new tab
-          chrome.tabs.create({url: request.url, active: true});
-        }
+          if (e.length) { // if the tab exists, go to it
+            chrome.tabs.update(e[0].id, {active: true});
+          } else { // else, open a new tab
+            chrome.tabs.create({url: request.url, active: true});
+          }
         });
     } else {
       sendResponse([]);
