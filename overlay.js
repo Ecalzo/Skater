@@ -4,12 +4,12 @@ chrome.runtime.onMessage.addListener(
             createOverlay();
             setUpInputEventListener();
             setTimeout(() => focusInput(), 100);
-            await launchOverlay();
+            await setUpDocumentEventListener();
         }
         return true
 });
 
-async function launchOverlay() {
+async function setUpDocumentEventListener() {
     document.addEventListener('keydown', async function(documentEvent) {
         if (getSearchInputElement()) {
             focusInput();
