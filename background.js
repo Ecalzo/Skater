@@ -31,6 +31,7 @@ chrome.runtime.onMessage.addListener(
 );
 
 chrome.commands.onCommand.addListener(function(command) {
+  // This is waiting for the 'launch' command to trigger
   sendContentScriptMessage({command: command});
 });
 
