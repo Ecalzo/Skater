@@ -9,8 +9,8 @@ chrome.runtime.onMessage.addListener(
         } else {
             focusInput();
         }
-        return true
-});
+    }
+);
 
 async function setUpOverlayEventListener() {
     const overlayDiv = getOverlayDiv();
