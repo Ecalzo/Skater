@@ -32,8 +32,8 @@
     "commands": {
         "launch": {
           "suggested_key": {
-            "default": "Ctrl+Shift+Y",
-            "mac": "Command+Shift+Y"
+            "default": "Ctrl+K",
+            "mac": "Command+K"
           },
           "description": "launch Skater"
         }
