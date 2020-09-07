@@ -196,7 +196,9 @@ function createOverlay() {
 
 function destroyOverlay() {
     const overlayDiv = getOverlayDiv();
-    overlayDiv.parentNode.removeChild(overlayDiv);
+    if (overlayDiv) {
+        overlayDiv.parentNode.removeChild(overlayDiv);
+    }
 }
 
 function createOverlayDiv () {
