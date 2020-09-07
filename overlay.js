@@ -1,5 +1,5 @@
 chrome.runtime.onMessage.addListener(
-    async function(_, _, _) {
+    async function(_, _, sendResponse) {
         // check if our overlay exists already
         if (!getOverlayDiv()) {
             createOverlay();
@@ -9,6 +9,8 @@ chrome.runtime.onMessage.addListener(
         } else {
             focusInput();
         }
+        sendResponse([]);
+        return true
     }
 );
 
