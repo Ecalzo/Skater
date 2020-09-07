@@ -1,5 +1,5 @@
 chrome.runtime.onMessage.addListener(
-    async function(request, sender, sendResponse) {
+    async function(_, _, _) {
         if (!document.querySelector('#skater-overlay')) {
             createOverlay();
             setUpInputEventListener();
