@@ -18,4 +18,4 @@ MacOS Spotlight-like Chrome extension for bookmarks
 2. Go to chrome://extensions/ in browser
 3. Enable Developer Mode
 4. Click Load Unpacked in top left and target the unzipped folder
-5. use `Ctrl + K` or `Cmd + K` and start searching your bookmarks super fast
+5. use `Ctrl + Shift + Space` or `Cmd + Shift + Space` and start searching your bookmarks super fast
