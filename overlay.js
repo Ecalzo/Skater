@@ -82,11 +82,12 @@ async function goTo(url) {
 }
 
 function isValidInputEvent(key) {
-    const isAlphabetical = (key >= "a" && key <= "z");
+    const isAlphabetical = (key >= "a" && key <= "z") || (key >= "A" && key <= "Z");
     const isNumeric = (key >= "0" && key <= "9");
     const isBackspace = (key === "Backspace");
     const isEnter = (key === "Enter");
-    return isAlphabetical || isNumeric || isBackspace || isEnter
+    const isShift = (key === "Shift");
+    return isAlphabetical || isNumeric || isBackspace || isEnter || isShift
 }
 
 function stripIndexFromClass(element) {
