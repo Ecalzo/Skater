@@ -82,7 +82,7 @@ async function goTo(url) {
 }
 
 function isValidInputEvent(key) {
-    const isAlphabetical = (key >= "a" && key <= "z") || (key >= "A" && key <= "Z");
+    const isAlphabetical = (key >= "a" && key <= "z");
     const isNumeric = (key >= "0" && key <= "9");
     const isBackspace = (key === "Backspace");
     const isEnter = (key === "Enter");
