@@ -1,5 +1,5 @@
 chrome.runtime.onMessage.addListener(
-    async function(_, _, sendResponse) {
+    async function(a, b, sendResponse) {
         // check if our overlay exists already
         if (!getOverlayDiv()) {
             createOverlay();
@@ -346,4 +346,8 @@ function sendBackgroundMessage(query_object) {
     } else {
         return Promise.resolve([]);
     }
+}
+
+module.exports = {
+    isValidInputEvent
 }
