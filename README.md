@@ -5,7 +5,8 @@ MacOS Spotlight-like Chrome extension for bookmarks
 
 ## Usage
 * Install Extension from the [chrome web store](https://chrome.google.com/webstore/detail/skater/goeeolknplhjegbfefjgeekeobpehekf)
-* `Ctrl + /` or `Cmd + /` to open the prompt
+* `Ctrl + K` or `Cmd + K` to open the prompt
+    * [You can also configure this hotkey](https://pureinfotech.com/add-keyboard-shortcuts-extensions-chrome/)
 * Search your bookmarks!
     * Use `↑` and `↓` to navigate results
     * Skate to your selected website with `Enter`
@@ -17,4 +18,4 @@ MacOS Spotlight-like Chrome extension for bookmarks
 2. Go to chrome://extensions/ in browser
 3. Enable Developer Mode
 4. Click Load Unpacked in top left and target the unzipped folder
-5. use `Ctrl + /` or `Cmd + /` and start searching your bookmarks super fast
+5. use `Ctrl + Shift + Space` or `Cmd + Shift + Space` and start searching your bookmarks super fast

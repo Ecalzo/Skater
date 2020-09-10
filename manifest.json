@@ -3,7 +3,7 @@
 
     "name": "Skater",
     "description": "Spotlight-like extension for Chrome bookmarks",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "icons": {
         "16": "icon16.png",
         "24": "icon24.png",
@@ -28,5 +28,14 @@
     "permissions": [
         "bookmarks",
         "tabs"
-    ]
+    ],
+    "commands": {
+        "launch": {
+          "suggested_key": {
+            "default": "Ctrl+Shift+Space",
+            "mac": "Command+Shift+Space"
+          },
+          "description": "launch Skater"
+        }
+    }
 }

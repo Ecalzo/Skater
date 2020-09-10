@@ -1,52 +1,59 @@
-document.addEventListener('keydown', async function(documentEvent) {
-    const isUnix = navigator.platform.toUpperCase().indexOf('MAC') >= 0 || navigator.platform.toUpperCase().indexOf('LINUX') >= 0;
-    if (
-        ((documentEvent.ctrlKey && !isUnix)
-        || (documentEvent.metaKey && isUnix))
-        && documentEvent.key === '/'
-        && !document.querySelector('#skater-overlay')
-    ) {
-        createOverlay();
-        setUpInputEventListener();
-        setTimeout(() => focusInput(), 100);
-    } else if (getSearchInputElement()) {
-        focusInput();
-        const focusedElement = getFocusedListElement();
-        switch(documentEvent.key) {
-            case "Up":
-            case "ArrowUp":
-                if (focusedElement.getAttribute('class') === 'skater-link skater-result-0 skater-focused') {
-                    focusInput();
-                } else if (focusedElement.isSameNode(getSearchInputElement())) {
-                    // do nothing
-                } else {
-                    // move to previous result
-                    moveUpOneResult();
-                    documentEvent.preventDefault();
-                }
-                return true
-            case "Down":
-            case "ArrowDown":
-                // move to next search result
-                moveDownOneResult();
-                return true
-            case "Enter":
-                // go to first inputEvent in the list
-                const selectedResult = getFocusedListElement();
-                if (documentEvent.ctrlKey){
-                    // open in same window
-                } else {
-                    destroyOverlay();                   
-                    await goTo(selectedResult.href);
-                }
-            case "Escape":
-                destroyOverlay();
+chrome.runtime.onMessage.addListener(
+    async function(_, _, sendResponse) {
+        // check if our overlay exists already
+        if (!getOverlayDiv()) {
+            createOverlay();
+            setUpInputEventListener();
+            setTimeout(() => focusInput(), 100);
+            await setUpOverlayEventListener();
+        } else {
+            focusInput();
         }
+        sendResponse([]);
+        return true
     }
-    if (documentEvent.key === "Escape") {
-    }
-    return true
-});
+);
+
+async function setUpOverlayEventListener() {
+    const overlayDiv = getOverlayDiv();
+    overlayDiv.addEventListener('keydown', async function(documentEvent) {
+        if (getSearchInputElement()) {
+            focusInput();
+            const focusedElement = getFocusedListElement();
+            switch(documentEvent.key) {
+                case "Up":
+                case "ArrowUp":
+                    if (focusedElement.getAttribute('class') === 'skater-link skater-result-0 skater-focused') {
+                        focusInput();
+                    } else if (focusedElement.isSameNode(getSearchInputElement())) {
+                        // do nothing
+                    } else {
+                        // move to previous result
+                        moveUpOneResult();
+                        documentEvent.preventDefault();
+                    }
+                    return true
+                case "Down":
+                case "ArrowDown":
+                    // move to next search result
+                    moveDownOneResult();
+                    return true
+                case "Enter":
+                    // go to first inputEvent in the list
+                    const selectedResult = getFocusedListElement();
+                    if (documentEvent.ctrlKey){
+                        // open in same window
+                    } else {
+                        destroyOverlay();                   
+                        await goTo(selectedResult.href);
+                    }
+                case "Escape":
+                    destroyOverlay();
+            }
+        }
+        return true
+    });
+}
 
 function setUpInputEventListener() {
     const searchInput = getSearchInputElement();
@@ -75,11 +82,13 @@ async function goTo(url) {
 }
 
 function isValidInputEvent(key) {
-    const isAlphabetical = (key >= "a" && key <= "z");
+    const isAlphabetical = (key >= "a" && key <= "z") || (key >= "A" && key <= "Z") && key.length === 1;
     const isNumeric = (key >= "0" && key <= "9");
     const isBackspace = (key === "Backspace");
     const isEnter = (key === "Enter");
-    return isAlphabetical || isNumeric || isBackspace || isEnter
+    const isShift = (key === "Shift");
+    const isArrowKey = (['ArrowUp', 'Up', 'ArrowDown', 'Down', 'ArrowLeft', 'Left', 'ArrowRight', 'Right'].includes(key))
+    return (isAlphabetical || isNumeric || isBackspace || isEnter || isShift) && !isArrowKey
 }
 
 function stripIndexFromClass(element) {
@@ -191,7 +200,9 @@ function createOverlay() {
 
 function destroyOverlay() {
     const overlayDiv = getOverlayDiv();
-    overlayDiv.parentNode.removeChild(overlayDiv);
+    if (overlayDiv) {
+        overlayDiv.parentNode.removeChild(overlayDiv);
+    }
 }
 
 function createOverlayDiv () {
