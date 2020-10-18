@@ -8,6 +8,12 @@ function isValidInputEvent(key) {
     return (isAlphabetical || isNumeric || isBackspace || isEnter || isShift) && !isArrowKey
 }
 
+function stripIndexFromClass(element) {
+    const classString = element.getAttribute('class').split(' ')[1].split('-'); 
+    return parseInt(classString[classString.length - 1]);
+}
+
 module.exports = {
-    isValidInputEvent
+    isValidInputEvent,
+    stripIndexFromClass
 }
