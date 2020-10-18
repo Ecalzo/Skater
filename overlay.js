@@ -1,4 +1,4 @@
-const {isValidInputEvent} = require('../src/utils.js');
+const {isValidInputEvent} = require('./src/utils.js');
 
 chrome.runtime.onMessage.addListener(
     async function(a, b, sendResponse) {
