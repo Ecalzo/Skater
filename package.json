@@ -1,8 +1,15 @@
 {
+    "type": "module",
     "scripts": {
-        "test": "jest"
+        "test": "jest",
+        "build": "browserify content_script.js -o static/bundle.js",
+        "watch": "watchify content_script.js -o static/bundle.js --debug --verbose"
     },
     "devDependencies": {
-        "jest": "^26.5.3"
+        "jest": "^26.5.3",
+        "watchify": "^3.11.1"
+    },
+    "dependencies": {
+        "browserify": "^17.0.0"
     }
 }
