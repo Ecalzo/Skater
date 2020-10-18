@@ -1,3 +1,5 @@
+const {isValidInputEvent} = require('../src/utils.js');
+
 chrome.runtime.onMessage.addListener(
     async function(a, b, sendResponse) {
         // check if our overlay exists already
@@ -81,15 +83,6 @@ async function goTo(url) {
     await sendBackgroundMessage({url: url});
 }
 
-function isValidInputEvent(key) {
-    const isAlphabetical = (key >= "a" && key <= "z") || (key >= "A" && key <= "Z") && key.length === 1;
-    const isNumeric = (key >= "0" && key <= "9");
-    const isBackspace = (key === "Backspace");
-    const isEnter = (key === "Enter");
-    const isShift = (key === "Shift");
-    const isArrowKey = (['ArrowUp', 'Up', 'ArrowDown', 'Down', 'ArrowLeft', 'Left', 'ArrowRight', 'Right'].includes(key))
-    return (isAlphabetical || isNumeric || isBackspace || isEnter || isShift) && !isArrowKey
-}
 
 function stripIndexFromClass(element) {
     const classString = element.getAttribute('class').split(' ')[1].split('-'); 
