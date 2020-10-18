@@ -1,7 +1,7 @@
 {
     "type": "module",
     "scripts": {
-        "test": "jest",
+        "test": "jest tests/",
         "build": "browserify content_script.js -o static/bundle.js",
         "watch": "watchify content_script.js -o static/bundle.js --debug --verbose"
     },
