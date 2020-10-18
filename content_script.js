@@ -1,4 +1,7 @@
-const {isValidInputEvent} = require('./src/utils.js');
+const {
+    isValidInputEvent,
+    stripIndexFromClass
+} = require('./src/utils.js');
 
 chrome.runtime.onMessage.addListener(
     async function(a, b, sendResponse) {
@@ -83,11 +86,6 @@ async function goTo(url) {
     await sendBackgroundMessage({url: url});
 }
 
-
-function stripIndexFromClass(element) {
-    const classString = element.getAttribute('class').split(' ')[1].split('-'); 
-    return parseInt(classString[classString.length - 1]);
-}
 
 function moveUpOneResult() {
     if (getFocusedListElement().getAttribute('class') === 'skater-link skater-result-0 skater-focused') {
