@@ -2,7 +2,8 @@ const {
     isValidInputEvent,
     stripIndexFromClass,
     stripFocusFromClass,
-    giveElementFocusedClass
+    giveElementFocusedClass,
+    refineResults
 } = require('../src/utils.js');
 
 test('Asserts that the received keypress is one of: alphabetical, numeric, backspace, enter or shift', () => {
@@ -36,4 +37,28 @@ test('Asserts that the focused class with the specified index is given skater-fo
     giveElementFocusedClass(index);
     expect(testElement.getAttribute('class')).toBe(expectedClass);
 
+})
+
+test('Asserts that the searchResults JSON object is properly refined to exclude results w/o urls', () => {
+    const mockedSearchResults = [
+        {
+            dateAdded: 1603287377972,
+            dateGroupModified: 1603287377972,
+            id: "12",
+            index: 5,
+            parentId: "1",
+            title: "test_folder"
+        },
+        {
+            dateAdded: 1603287435587,
+            id: "13",
+            index: 6,
+            parentId: "1",
+            title: "TEST_youtube",
+            url: "https://www.youtube.com/"
+        }
+    ]
+    const refinedResults = refineResults(mockedSearchResults, 'tEsT');
+    expect(refinedResults.length).toBe(1);
+    expect(refinedResults[0].url).toBe("https://www.youtube.com/");
 })

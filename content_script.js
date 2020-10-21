@@ -2,7 +2,8 @@ const {
     isValidInputEvent,
     stripIndexFromClass,
     stripFocusFromClass,
-    giveElementFocusedClass
+    giveElementFocusedClass,
+    refineResults
 } = require('./src/utils.js');
 
 const {
@@ -185,14 +186,6 @@ function ensureResultsListIsHidden() {
     const searchResultsElement = getSearchResultsElement();
     searchResultsElement.style.visibility = "hidden";
     searchResultsElement.style.padding = "0px";
-}
-
-function refineResults(searchResults, query) {
-    return searchResults.filter(result => {
-      const queryLower = query.toLowerCase();
-      const bookmarkTitle = result.title.toLowerCase();
-      return (bookmarkTitle.includes(queryLower) || result.url.includes(queryLower)) && result.hasOwnProperty('url');
-    });
 }
 
 function refreshActiveSearchResults(results) {

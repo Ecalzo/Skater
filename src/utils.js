@@ -28,9 +28,20 @@ function giveElementFocusedClass(index) {
     focusedElement.setAttribute('class', `skater-link skater-result-${index} skater-focused`);
 }
 
+
+function refineResults(searchResults, query) {
+    return searchResults.filter(result => {
+      const queryLower = query.toLowerCase();
+      const bookmarkTitle = result.title.toLowerCase();
+      return (bookmarkTitle.includes(queryLower) || result.url.includes(queryLower)) && result.hasOwnProperty('url');
+    });
+}
+
+
 module.exports = {
     isValidInputEvent,
     stripIndexFromClass,
     stripFocusFromClass,
-    giveElementFocusedClass
+    giveElementFocusedClass,
+    refineResults
 }
