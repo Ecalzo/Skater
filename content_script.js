@@ -1,6 +1,8 @@
 const {
     isValidInputEvent,
-    stripIndexFromClass
+    stripIndexFromClass,
+    stripFocusFromClass,
+    giveElementFocusedClass
 } = require('./src/utils.js');
 
 const {
@@ -140,11 +142,6 @@ function updateSearchResultsCSS(index) {
 function resetListElementClass(skaterLinkElement) {
     const elementRootClass = stripFocusFromClass(skaterLinkElement.getAttribute('class')); 
     skaterLinkElement.setAttribute('class', elementRootClass);
-}
-
-function giveElementFocusedClass(index) {
-    const focusedElement = document.querySelector(`.skater-result-${index}`);
-    focusedElement.setAttribute('class', `skater-link skater-result-${index} skater-focused`);
 }
 
 function getFocusedListElement() {

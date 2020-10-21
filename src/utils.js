@@ -22,8 +22,15 @@ function stripFocusFromClass(classString) {
     }
 }
 
+
+function giveElementFocusedClass(index) {
+    const focusedElement = document.querySelector(`.skater-result-${index}`);
+    focusedElement.setAttribute('class', `skater-link skater-result-${index} skater-focused`);
+}
+
 module.exports = {
     isValidInputEvent,
     stripIndexFromClass,
-    stripFocusFromClass
+    stripFocusFromClass,
+    giveElementFocusedClass
 }
