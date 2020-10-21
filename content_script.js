@@ -142,15 +142,6 @@ function resetListElementClass(skaterLinkElement) {
     skaterLinkElement.setAttribute('class', elementRootClass);
 }
 
-function stripFocusFromClass(classString) {
-    const rootClassList = classString.split(' ');
-    if (classString.length > 2) {
-        return rootClassList.slice(0, 2).join(' ');
-    } else {
-        return classString
-    }
-}
-
 function giveElementFocusedClass(index) {
     const focusedElement = document.querySelector(`.skater-result-${index}`);
     focusedElement.setAttribute('class', `skater-link skater-result-${index} skater-focused`);

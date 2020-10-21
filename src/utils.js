@@ -13,7 +13,17 @@ function stripIndexFromClass(element) {
     return parseInt(classString[classString.length - 1]);
 }
 
+function stripFocusFromClass(classString) {
+    const rootClassList = classString.split(' ');
+    if (classString.length > 2) {
+        return rootClassList.slice(0, 2).join(' ');
+    } else {
+        return classString
+    }
+}
+
 module.exports = {
     isValidInputEvent,
-    stripIndexFromClass
+    stripIndexFromClass,
+    stripFocusFromClass
 }
