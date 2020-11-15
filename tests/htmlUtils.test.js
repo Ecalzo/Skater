@@ -17,7 +17,7 @@ test('Asserts that the parent Skater overlay div is created', () => {
     expect(document.querySelector('#searchWrapperDiv')).not.toBeNull()
 })
 
-test('Asserts that the desired list elemet is created', () => {
+test('Asserts that the desired list element is created', () => {
     const index = 3;
     const mocked_result = {
         dateAdded: 1603287435587,
@@ -58,4 +58,32 @@ test('Asserts that the newly focused search result has the correct properties', 
     expect(focusedElement.parentElement.style['background-position-y']).toBe('100%');
     expect(focusedElement.style.color).toBe('black');
     expect(focusedElement.style.outline).toBe('none');
+})
+
+test('Asserts that a list elements CSS is properly reset', () => {
+    const index = 3;
+    const mocked_result = {
+        dateAdded: 1603287435587,
+        id: "13",
+        index: 6,
+        parentId: "1",
+        title: "TEST_youtube",
+        url: "https://www.youtube.com/"
+    }
+    const listElement = createListItem(mocked_result, index);
+
+    // mess with the listElement's css
+    listElement.style['background-position-y'] = "100%";
+    listElement.style['transition'] = 'background 800ms ease';
+    listElement.style['background-size'] = 'auto 100%';
+    listElement.setAttribute('class', 'wrongClass');
+
+    resetListElementCSS(listElement);
+
+    expect(listElement.getAttribute('class')).toBe('searchResultItem');
+    expect(listElement.style['background-position-y']).toBe('-0%');
+    expect(listElement.style['transition']).toBe('background 200ms ease');
+    expect(listElement.style['background-size']).toBe('auto 200%');
+    expect(listElement.style['border-radius']).toBe('10px');
+    expect(listElement.style.padding).toBe('4px 0px 4px 0px');
 })
