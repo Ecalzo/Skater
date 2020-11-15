@@ -105,11 +105,21 @@ function resetListElementCSS(listElement, index) {
     listElement.style.padding = '4px 0px 4px 0px';
 }
 
+function animateFocusedSearchResult(index) {
+    const focusedElement = document.querySelector(`.skater-result-${index}`);
+    if (focusedElement) {
+        focusedElement.parentElement.style['background-position-y'] = '100%';
+        focusedElement.style.color = 'black';
+        focusedElement.style.outline = 'none';
+    }
+}
+
 module.exports = {
     createOverlay,
     createOverlayDiv,
     createSearchIcon,
     createSearchInput,
     createListItem,
-    resetListElementCSS
+    resetListElementCSS,
+    animateFocusedSearchResult
 }

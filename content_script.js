@@ -3,7 +3,8 @@ const {
     stripIndexFromClass,
     stripFocusFromClass,
     giveElementFocusedClass,
-    refineResults
+    refineResults,
+    animateFocusedSearchResult
 } = require('./src/utils.js');
 
 const {
@@ -120,14 +121,6 @@ function moveDownOneResult() {
     focusInput();
 }
 
-function animateFocusedSearchResult(index) {
-    const focusedElement = document.querySelector(`.skater-result-${index}`);
-    if (focusedElement) {
-        focusedElement.parentElement.style['background-position-y'] = '100%';
-        focusedElement.style.color = 'black';
-        focusedElement.style.outline = "none";
-    }
-}
 
 function updateSearchResultsCSS(index) {
     const searchElements = getSearchResultsElementChildren();
