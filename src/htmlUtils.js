@@ -80,8 +80,7 @@ function createListItem(result, index) {
     listURL.style.color = "black";
     listURL.style['text-decoration'] = 'none';
 
-    listElement.setAttribute('class', `searchResultItem`);
-    resetListElementCSS(listElement, index);
+    resetListElementCSS(listElement);
 
     if (result.title.length > 27) {
         listURL.innerHTML = result.title.substring(0, 27) + '...';
@@ -95,8 +94,8 @@ function createListItem(result, index) {
     return listElement
 }
 
-function resetListElementCSS(listElement, index) {
-    listElement.setAttribute('class', 'unselected');
+function resetListElementCSS(listElement) {
+    listElement.setAttribute('class', 'searchResultItem');
     listElement.style['background-position-y'] = "-0%";
     listElement.style['background-image'] = 'linear-gradient(#f5f5f5 50%, #c6f6d5 50%)';
     listElement.style['transition'] = 'background 200ms ease';
