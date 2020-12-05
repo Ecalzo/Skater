@@ -1,3 +1,5 @@
+[![Node.js CI Actions Status](https://github.com/Ecalzo/Skater/workflows/node.js/badge.svg)](https://github.com/Ecalzo/Skater/actions)
+
 ![test](images/icon128.png?raw=true)
 
 # Skater
