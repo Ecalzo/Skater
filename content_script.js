@@ -39,6 +39,7 @@ chrome.runtime.onMessage.addListener(
 
 async function setUpOverlayEventListener() {
     const overlayDiv = getOverlayDiv();
+    document.addEventListener('keydown', handleEscapeKey);
     overlayDiv.addEventListener('keydown', async function(documentEvent) {
         if (getSearchInputElement()) {
             focusInput();
@@ -70,12 +71,18 @@ async function setUpOverlayEventListener() {
                         destroyOverlay();                   
                         await goTo(selectedResult.href);
                     }
-                case "Escape":
-                    destroyOverlay();
             }
         }
         return true
     });
+}
+
+function handleEscapeKey(globalEvent) {
+    switch(globalEvent.key) {
+        case "Escape":
+            destroyOverlay();
+            document.removeEventListener('keydown', handleEscapeKey);
+    }
 }
 
 function setUpInputEventListener() {
