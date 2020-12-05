@@ -95,3 +95,10 @@ test('Asserts that createOverlayDiv successfully creates its div', () => {
     expect(overlayDiv.id).toBe("skater-overlay");
     expect(overlayDivSelector.id).toBe("skater-overlay");
 })
+
+test('Asserts that createSearchIcon successfully creates its div', () => {
+    const searchIcon = createSearchIcon();
+    document.body.appendChild(searchIcon);
+    const searchIconSelector = document.querySelector('.search-icon');
+    expect(searchIconSelector).not.toBeUndefined();
+})
