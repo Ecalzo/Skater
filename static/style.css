@@ -22,7 +22,7 @@ body:hover, body:focus {
   width: 30px;
   text-align: center;
   text-decoration: none;
-  margin: 5px 2px;
+  margin: 10px 40px 2px;
   border-radius: 50%;
 }
 
@@ -39,17 +39,3 @@ body:hover, body:focus {
   background: #000000;
   color: white;
 }
-
-/* a, a:link {
-    color: black;
-    text-decoration: none;
-    background-position-y: -0%;
-    background-image: linear-gradient(#edf2f7 50%, #c6f6d5 50%);
-    transition: background 300ms ease;
-    background-size: 2px;
-    background-size: auto 175%;
-  }
-  
-  a:hover, a:focus {
-    background-position-y: 100%;
-  } */

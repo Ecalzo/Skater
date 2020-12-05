@@ -1,5 +1,20 @@
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+const {
+    isValidInputEvent,
+    stripIndexFromClass,
+    stripFocusFromClass,
+    giveElementFocusedClass,
+    refineResults
+} = require('./src/utils.js');
+
+const {
+    createOverlay,
+    createListItem,
+    resetListElementCSS
+} = require('./src/htmlUtils.js');
+
 chrome.runtime.onMessage.addListener(
-    async function(_, _, sendResponse) {
+    async function(a, b, sendResponse) {
         // check if our overlay exists already
         if (!getOverlayDiv()) {
             createOverlay();
@@ -81,20 +96,6 @@ async function goTo(url) {
     await sendBackgroundMessage({url: url});
 }
 
-function isValidInputEvent(key) {
-    const isAlphabetical = (key >= "a" && key <= "z") || (key >= "A" && key <= "Z") && key.length === 1;
-    const isNumeric = (key >= "0" && key <= "9");
-    const isBackspace = (key === "Backspace");
-    const isEnter = (key === "Enter");
-    const isShift = (key === "Shift");
-    const isArrowKey = (['ArrowUp', 'Up', 'ArrowDown', 'Down', 'ArrowLeft', 'Left', 'ArrowRight', 'Right'].includes(key))
-    return (isAlphabetical || isNumeric || isBackspace || isEnter || isShift) && !isArrowKey
-}
-
-function stripIndexFromClass(element) {
-    const classString = element.getAttribute('class').split(' ')[1].split('-'); 
-    return parseInt(classString[classString.length - 1]);
-}
 
 function moveUpOneResult() {
     if (getFocusedListElement().getAttribute('class') === 'skater-link skater-result-0 skater-focused') {
@@ -145,20 +146,6 @@ function resetListElementClass(skaterLinkElement) {
     skaterLinkElement.setAttribute('class', elementRootClass);
 }
 
-function stripFocusFromClass(classString) {
-    const rootClassList = classString.split(' ');
-    if (classString.length > 2) {
-        return rootClassList.slice(0, 2).join(' ');
-    } else {
-        return classString
-    }
-}
-
-function giveElementFocusedClass(index) {
-    const focusedElement = document.querySelector(`.skater-result-${index}`);
-    focusedElement.setAttribute('class', `skater-link skater-result-${index} skater-focused`);
-}
-
 function getFocusedListElement() {
     return document.querySelector('.skater-focused');
 }
@@ -183,6 +170,56 @@ function getSearchResultsElementChildren() {
     return document.querySelectorAll(".skater-link");
 }
 
+function destroyOverlay() {
+    const overlayDiv = getOverlayDiv();
+    if (overlayDiv) {
+        overlayDiv.parentNode.removeChild(overlayDiv);
+    }
+}
+
+function ensureResultsListIsVisible() {
+    const searchResultsElement = getSearchResultsElement();
+    searchResultsElement.style.visibility = "visible";
+    searchResultsElement.style.padding = "10px 10px 10px 10px";
+}
+
+function ensureResultsListIsHidden() {
+    const searchResultsElement = getSearchResultsElement();
+    searchResultsElement.style.visibility = "hidden";
+    searchResultsElement.style.padding = "0px";
+}
+
+function refreshActiveSearchResults(results) {
+    const resultsDiv = getSearchResultsElement();
+    // wipes the unordered list
+    resultsDiv.innerHTML = '';
+    if (results.length) {
+        ensureResultsListIsVisible();
+        let index = 0;
+        results.forEach(result => {
+            resultsDiv.appendChild(createListItem(result, index));
+            index += 1;
+        });
+    } else {
+        ensureResultsListIsHidden();
+    };
+}
+
+function focusInput() {
+    getSearchInputElement().focus();
+}
+
+function sendBackgroundMessage(query_object) {
+    if ((query_object.url && query_object.url.length > 0) || (query_object.userSearch && query_object.userSearch.length)) {
+        return new Promise((resolve, _reject) => {
+            chrome.runtime.sendMessage(query_object, resolve);
+        });
+    } else {
+        return Promise.resolve([]);
+    }
+}
+
+},{"./src/htmlUtils.js":2,"./src/utils.js":3}],2:[function(require,module,exports){
 function createOverlay() {
     const searchIcon = createSearchIcon();
     const overlayDiv = createOverlayDiv();
@@ -196,13 +233,6 @@ function createOverlay() {
     overlayDiv.appendChild(searchWrapperDiv);
     // append all to document
     document.body.appendChild(overlayDiv);
-}
-
-function destroyOverlay() {
-    const overlayDiv = getOverlayDiv();
-    if (overlayDiv) {
-        overlayDiv.parentNode.removeChild(overlayDiv);
-    }
 }
 
 function createOverlayDiv () {
@@ -219,7 +249,6 @@ function createSearchIcon() {
     searchIcon.style = "position: absolute; margin-top: 23px; left: 10px; width: 20px; opacity: 50%"
     return searchIcon
 }
-
 
 function createSearchInput() {
     const searchInput = document.createElement('input');
@@ -255,16 +284,6 @@ function createSearchResultsList() {
     return resultsDiv
 }
 
-function resetListElementCSS(listElement, index) {
-    listElement.setAttribute('class', 'unselected');
-    listElement.style['background-position-y'] = "-0%";
-    listElement.style['background-image'] = 'linear-gradient(#f5f5f5 50%, #c6f6d5 50%)';
-    listElement.style['transition'] = 'background 200ms ease';
-    listElement.style['background-size'] = 'auto 200%';
-    listElement.style['border-radius'] = '10px';
-    listElement.style.padding = '4px 0px 4px 0px';
-}
-
 function createListItem(result, index) {
     const listElement = document.createElement('div');
     const listURL = document.createElement('a');
@@ -298,17 +317,56 @@ function createListItem(result, index) {
     return listElement
 }
 
-function ensureResultsListIsVisible() {
-    const searchResultsElement = getSearchResultsElement();
-    searchResultsElement.style.visibility = "visible";
-    searchResultsElement.style.padding = "10px 10px 10px 10px";
+function resetListElementCSS(listElement, index) {
+    listElement.setAttribute('class', 'unselected');
+    listElement.style['background-position-y'] = "-0%";
+    listElement.style['background-image'] = 'linear-gradient(#f5f5f5 50%, #c6f6d5 50%)';
+    listElement.style['transition'] = 'background 200ms ease';
+    listElement.style['background-size'] = 'auto 200%';
+    listElement.style['border-radius'] = '10px';
+    listElement.style.padding = '4px 0px 4px 0px';
 }
 
-function ensureResultsListIsHidden() {
-    const searchResultsElement = getSearchResultsElement();
-    searchResultsElement.style.visibility = "hidden";
-    searchResultsElement.style.padding = "0px";
+module.exports = {
+    createOverlay,
+    createOverlayDiv,
+    createSearchIcon,
+    createSearchInput,
+    createListItem,
+    resetListElementCSS
 }
+
+},{}],3:[function(require,module,exports){
+function isValidInputEvent(key) {
+    const isAlphabetical = (key >= "a" && key <= "z") || (key >= "A" && key <= "Z") && key.length === 1;
+    const isNumeric = (key >= "0" && key <= "9");
+    const isBackspace = (key === "Backspace");
+    const isEnter = (key === "Enter");
+    const isShift = (key === "Shift");
+    const isArrowKey = (['ArrowUp', 'Up', 'ArrowDown', 'Down', 'ArrowLeft', 'Left', 'ArrowRight', 'Right'].includes(key))
+    return (isAlphabetical || isNumeric || isBackspace || isEnter || isShift) && !isArrowKey
+}
+
+function stripIndexFromClass(element) {
+    const classString = element.getAttribute('class').split(' ')[1].split('-'); 
+    return parseInt(classString[classString.length - 1]);
+}
+
+function stripFocusFromClass(classString) {
+    const rootClassList = classString.split(' ');
+    if (classString.length > 2) {
+        return rootClassList.slice(0, 2).join(' ');
+    } else {
+        return classString
+    }
+}
+
+
+function giveElementFocusedClass(index) {
+    const focusedElement = document.querySelector(`.skater-result-${index}`);
+    focusedElement.setAttribute('class', `skater-link skater-result-${index} skater-focused`);
+}
+
 
 function refineResults(searchResults, query) {
     return searchResults.filter(result => {
@@ -318,32 +376,13 @@ function refineResults(searchResults, query) {
     });
 }
 
-function refreshActiveSearchResults(results) {
-    const resultsDiv = getSearchResultsElement();
-    // wipes the unordered list
-    resultsDiv.innerHTML = '';
-    if (results.length) {
-        ensureResultsListIsVisible();
-        let index = 0;
-        results.forEach(result => {
-            resultsDiv.appendChild(createListItem(result, index));
-            index += 1;
-        });
-    } else {
-        ensureResultsListIsHidden();
-    };
+
+module.exports = {
+    isValidInputEvent,
+    stripIndexFromClass,
+    stripFocusFromClass,
+    giveElementFocusedClass,
+    refineResults
 }
 
-function focusInput() {
-    getSearchInputElement().focus();
-}
-
-function sendBackgroundMessage(query_object) {
-    if ((query_object.url && query_object.url.length > 0) || (query_object.userSearch && query_object.userSearch.length)) {
-        return new Promise((resolve, _reject) => {
-            chrome.runtime.sendMessage(query_object, resolve);
-        });
-    } else {
-        return Promise.resolve([]);
-    }
-}
+},{}]},{},[1]);

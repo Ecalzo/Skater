@@ -1,11 +1,13 @@
-![test](icon128.png?raw=true)
+[![Node.js CI Actions Status](https://github.com/Ecalzo/Skater/workflows/Node.js-CI/badge.svg)](https://github.com/Ecalzo/Skater/actions)
+
+![test](images/icon128.png?raw=true)
 
 # Skater
 MacOS Spotlight-like Chrome extension for bookmarks
 
 ## Usage
 * Install Extension from the [chrome web store](https://chrome.google.com/webstore/detail/skater/goeeolknplhjegbfefjgeekeobpehekf)
-* `Ctrl + K` or `Cmd + K` to open the prompt
+* `Ctrl + Shift + Space` or `Cmd + Shift + Space` to open the prompt
     * [You can also configure this hotkey](https://pureinfotech.com/add-keyboard-shortcuts-extensions-chrome/)
 * Search your bookmarks!
     * Use `↑` and `↓` to navigate results
