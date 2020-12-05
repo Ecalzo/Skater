@@ -13,6 +13,14 @@ const {
     resetListElementCSS
 } = require('./src/htmlUtils.js');
 
+const {
+    getFocusedListElement,
+    getSearchInputElement,
+    getSearchResultsElement,
+    getOverlayDiv,
+    getSearchResultsElementChildren
+} = require('./src/selectors');
+
 chrome.runtime.onMessage.addListener(
     async function(a, b, sendResponse) {
         // check if our overlay exists already
@@ -136,30 +144,6 @@ function updateSearchResultsCSS(index) {
 function resetListElementClass(skaterLinkElement) {
     const elementRootClass = stripFocusFromClass(skaterLinkElement.getAttribute('class')); 
     skaterLinkElement.setAttribute('class', elementRootClass);
-}
-
-function getFocusedListElement() {
-    return document.querySelector('.skater-focused');
-}
-
-function getSearchInputElement() {
-    return document.getElementById("search-input");
-}
-
-function getSearchResultsElement() {
-    return document.getElementById("search-results");
-}
-
-function getSearchWrapperElement() {
-    return document.getElementById("search-wrapper-div");
-}
-
-function getOverlayDiv() {
-    return document.getElementById("skater-overlay");
-}
-
-function getSearchResultsElementChildren() {
-    return document.querySelectorAll(".skater-link");
 }
 
 function destroyOverlay() {
