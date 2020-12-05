@@ -13,8 +13,8 @@ test('Asserts that the parent Skater overlay div is created', () => {
     expect(document.querySelector('.search-icon')).not.toBeNull()
     expect(document.querySelector('#skater-overlay')).not.toBeNull()
     expect(document.querySelector('#search-input')).not.toBeNull()
-    expect(document.querySelector('#searchResults')).not.toBeNull()
-    expect(document.querySelector('#searchWrapperDiv')).not.toBeNull()
+    expect(document.querySelector('#search-results')).not.toBeNull()
+    expect(document.querySelector('#search-wrapper-div')).not.toBeNull()
 })
 
 test('Asserts that the desired list element is created', () => {

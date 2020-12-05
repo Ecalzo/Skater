@@ -42,7 +42,7 @@ function createSearchInput() {
 
 function createSearchWrapperDiv() {
     const searchWrapperDiv = document.createElement('div');
-    searchWrapperDiv.id = "searchWrapperDiv";
+    searchWrapperDiv.id = "search-wrapper-div";
     searchWrapperDiv.style = "width:400px; margin:auto; position: absolute; top: 50%; left: 40%; margin-right: -50%; transform: translate(-50%, -%50);"
     searchWrapperDiv.style.padding = "5px";
     searchWrapperDiv.style.border = "1px solid grey";
@@ -54,7 +54,7 @@ function createSearchWrapperDiv() {
 
 function createSearchResultsList() {
     const resultsDiv = document.createElement('div');
-    resultsDiv.id = "searchResults";
+    resultsDiv.id = "search-results";
     resultsDiv.style = "padding 20px; background-color: #f5f5f5; font-size:17px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif;"
     resultsDiv.style.visibility = "hidden";
     resultsDiv.style.padding = "0px";

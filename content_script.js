@@ -147,11 +147,11 @@ function getSearchInputElement() {
 }
 
 function getSearchResultsElement() {
-    return document.getElementById("searchResults");
+    return document.getElementById("search-results");
 }
 
 function getSearchWrapperElement() {
-    return document.getElementById("searchWrapperDiv");
+    return document.getElementById("search-wrapper-div");
 }
 
 function getOverlayDiv() {
