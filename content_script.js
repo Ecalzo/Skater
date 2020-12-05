@@ -143,7 +143,7 @@ function getFocusedListElement() {
 }
 
 function getSearchInputElement() {
-    return document.getElementById("searchInput");
+    return document.getElementById("search-input");
 }
 
 function getSearchResultsElement() {

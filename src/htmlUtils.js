@@ -30,8 +30,7 @@ function createSearchIcon() {
 
 function createSearchInput() {
     const searchInput = document.createElement('input');
-    searchInput.id = "searchInput";
-    searchInput.setAttribute('class', "");
+    searchInput.id = "search-input";
     searchInput.style = "height: 60px; width: 80%; padding: 2px 23px 2px 35px; background-color: #f5f5f5; font-size:19px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif;"
     searchInput.style.border = "0px";
     searchInput.style.outline = "none";

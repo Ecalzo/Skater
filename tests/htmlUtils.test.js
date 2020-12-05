@@ -12,7 +12,7 @@ test('Asserts that the parent Skater overlay div is created', () => {
     createOverlay();
     expect(document.querySelector('.search-icon')).not.toBeNull()
     expect(document.querySelector('#skater-overlay')).not.toBeNull()
-    expect(document.querySelector('#searchInput')).not.toBeNull()
+    expect(document.querySelector('#search-input')).not.toBeNull()
     expect(document.querySelector('#searchResults')).not.toBeNull()
     expect(document.querySelector('#searchWrapperDiv')).not.toBeNull()
 })
@@ -101,4 +101,14 @@ test('Asserts that createSearchIcon successfully creates its div', () => {
     document.body.appendChild(searchIcon);
     const searchIconSelector = document.querySelector('.search-icon');
     expect(searchIconSelector).not.toBeUndefined();
+})
+
+test('Asserts that createSearchInput successfully creates its div', () => {
+    const searchInput = createSearchInput();
+    document.body.appendChild(searchInput);
+    const searchInputSelector = document.querySelector('#search-input');
+    expect(searchInput.autocomplete).toBe('off');
+    expect(searchInputSelector.autocomplete).toBe('off');
+    expect(searchInput.placeholder).toBe('Skate to...');
+    expect(searchInputSelector.placeholder).toBe('Skate to...');
 })
