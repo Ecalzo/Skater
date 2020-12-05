@@ -87,3 +87,11 @@ test('Asserts that a list elements CSS is properly reset', () => {
     expect(listElement.style['border-radius']).toBe('10px');
     expect(listElement.style.padding).toBe('4px 0px 4px 0px');
 })
+
+test('Asserts that createOverlayDiv successfully creates its div', () => {
+    const overlayDiv = createOverlayDiv();
+    document.body.appendChild(overlayDiv);
+    const overlayDivSelector = document.querySelector("#skater-overlay");
+    expect(overlayDiv.id).toBe("skater-overlay");
+    expect(overlayDivSelector.id).toBe("skater-overlay");
+})
