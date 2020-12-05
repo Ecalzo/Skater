@@ -3,14 +3,14 @@ const {
     stripIndexFromClass,
     stripFocusFromClass,
     giveElementFocusedClass,
-    refineResults,
-    animateFocusedSearchResult
+    refineResults
 } = require('./src/utils.js');
 
 const {
     createOverlay,
     createListItem,
-    resetListElementCSS
+    resetListElementCSS,
+    animateFocusedSearchResult
 } = require('./src/htmlUtils.js');
 
 const {
