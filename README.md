@@ -1,4 +1,4 @@
-[![Node.js CI Actions Status](https://github.com/Ecalzo/Skater/workflows/Node.js CI/badge.svg)](https://github.com/Ecalzo/Skater/actions)
+[![Node.js CI Actions Status](https://github.com/Ecalzo/Skater/workflows/Node.js-CI/badge.svg)](https://github.com/Ecalzo/Skater/actions)
 
 ![test](images/icon128.png?raw=true)
 
