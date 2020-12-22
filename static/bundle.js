@@ -221,7 +221,7 @@ function createOverlay() {
 
 function createOverlayDiv () {
     const overlayDiv = document.createElement('div');
-    overlayDiv.style = "display:flex; align-item: center; justify-content: center;"
+    overlayDiv.style = "position: fixed; left: 0; top: 0; width: 100%; height: 100%; display:flex; align-item: center; justify-content: center; background: rgba(204, 204, 204, 0.3); z-index:2147483647;"
     overlayDiv.id = "skater-overlay"
     return overlayDiv
 }
