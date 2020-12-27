@@ -31,9 +31,4 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            static/*
-            images/*
-            src/*
-            content_script.js
-            manifest.json
             README.md
